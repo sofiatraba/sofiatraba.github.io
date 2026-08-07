@@ -1,0 +1,791 @@
+/* ==========================================================================
+   Sofia Traba, personal site
+   Ported from the Claude Design concept "Sofia Portfolio Site.dc.html".
+   Tokens first, then layout, then per-section rules.
+   ========================================================================== */
+
+:root {
+  /* The palette, final: white ground, near-black ink, Klein ultramarine
+     accent, vermilion for the career pivot only. themes.css = archive. */
+  --ink:        #ffffff;  /* page background            */
+  --panel:      #f6f6f6;  /* raised cards               */
+  --paper:      #0d0d0d;  /* primary text               */
+  --paper-rgb:  13, 13, 13;
+  --muted:      #444444;  /* body copy                  */
+  --dim:        #6a6a6a;  /* labels, inactive nav (5.4:1) */
+  --accent:     #1c40c9;  /* Klein ultramarine: links, climbs, the "now"  */
+  --accent-fill: var(--accent);  /* accent used as a BLOCK (buttons, the
+                                    "now" card); split kept so a future
+                                    palette can vary fill vs text accent */
+  --on-accent:  #ffffff;  /* text ON an accent fill */
+
+  /* Note: --ink is the background, --paper the text; names predate the
+     light palette. */
+
+  --line:       rgba(var(--paper-rgb), .14);
+  --line-soft:  rgba(var(--paper-rgb), .10);
+  --edge:       rgba(var(--paper-rgb), .18);
+
+  --serif: 'Newsreader', Georgia, serif;
+  --sans:  'Instrument Sans', system-ui, -apple-system, sans-serif;
+  --mono:  'DM Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --gutter: clamp(20px, 5vw, 64px);
+  --maxw: 1180px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--sans);
+  font-size: 17px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main { flex: 1; }
+
+h1, h2, p, dl, dd, figure, ol { margin: 0; }
+
+a { color: inherit; text-decoration: none; transition: opacity .18s ease; }
+a:hover { opacity: .8; }
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+img { max-width: 100%; display: block; }
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+  background: var(--accent-fill);
+  color: var(--on-accent);
+  padding: 12px 18px;
+  font: 500 13px var(--mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+}
+.skip:focus { left: 0; }
+
+/* --------------------------------------------------------------------------
+   Shared type
+   -------------------------------------------------------------------------- */
+
+.eyebrow {
+  font: 500 13px var(--mono);
+  letter-spacing: .26em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.accent { color: var(--accent); }
+
+.display {
+  font-family: var(--serif);
+  font-weight: 300;
+  letter-spacing: -.02em;
+  line-height: 1.02;
+  font-size: clamp(34px, 5.6vw, 60px);
+  text-wrap: pretty;
+}
+
+.lede {
+  font-size: clamp(18px, 1.6vw, 20.5px);
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 48ch;
+  text-wrap: pretty;
+}
+.lede--narrow { max-width: 34ch; }
+
+.body {
+  font-size: clamp(17px, 1.5vw, 19px);
+  line-height: 1.65;
+  color: var(--muted);
+  margin-top: 12px;
+}
+.body--wide { max-width: 64ch; }
+
+.mono-link {
+  display: inline-block;
+  font: 500 13px var(--mono);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.button {
+  display: inline-block;
+  margin-top: 40px;
+  background: var(--accent-fill);
+  color: var(--on-accent);
+  font: 500 13px var(--mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 18px 30px;
+}
+
+/* --------------------------------------------------------------------------
+   Chrome: top bar, footer, page shell
+   -------------------------------------------------------------------------- */
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 24px var(--gutter);
+  background: var(--ink);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  font: 500 13px var(--mono);
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  flex: none;
+}
+
+.nav {
+  display: flex;
+  gap: clamp(16px, 3vw, 32px);
+  font: 500 13px var(--mono);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.nav::-webkit-scrollbar { display: none; }
+.nav a { color: var(--dim); white-space: nowrap; }
+.nav a[aria-current="page"] { color: var(--accent); }
+
+.wrap {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: clamp(44px, 6vw, 72px) var(--gutter) clamp(56px, 7vw, 88px);
+}
+
+.footer {
+  border-top: 1px solid var(--line);
+  padding: 28px var(--gutter);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  font: 500 13px var(--mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+.footer-links { display: flex; gap: 24px; }
+
+/* Image slots: caption shows until the image loads; main.js drops broken imgs. */
+
+.slot {
+  position: relative;
+  height: var(--h, 180px);
+  background: var(--panel);
+  border: 1px dashed var(--edge);
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+}
+.slot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.slot figcaption {
+  font: 500 13px var(--mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-align: center;
+  padding: 0 12px;
+}
+/* Photo slots switch from fixed heights to aspect ratios once filled,
+   so portrait photos stop being cropped to letterboxes. */
+.portrait-col .slot.is-filled { height: auto; aspect-ratio: 1 / 1; }
+.more-grid .slot.is-filled { height: auto; aspect-ratio: 4 / 5; }
+.portrait-col .slot img,
+.more-grid .slot img { object-position: 50% 30%; }
+
+.slot.is-filled { border-style: solid; }
+.slot.is-filled figcaption { display: none; }
+
+/* --------------------------------------------------------------------------
+   Home
+   -------------------------------------------------------------------------- */
+
+.hero-title {
+  font-size: clamp(40px, 7.2vw, 76px);
+  line-height: .96;
+  max-width: 23ch;
+  margin-top: 24px;
+}
+.hero-title em { color: var(--accent); font-style: italic; }
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap: clamp(28px, 4vw, 56px);
+  margin-top: 44px;
+  align-items: start;
+}
+
+.card { border: 1px solid var(--edge); }
+.card-head {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--edge);
+  font: 500 13px var(--mono);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+.facts {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  font-size: 17.5px;
+}
+.facts dt {
+  padding: 14px 16px;
+  font: 500 13px var(--mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--dim);
+  border-bottom: 1px solid var(--line-soft);
+}
+.facts dd {
+  padding: 14px 16px;
+  margin: 0;
+  border-bottom: 1px solid var(--line-soft);
+  border-left: 1px solid var(--line-soft);
+}
+.facts dt:nth-last-of-type(1),
+.facts dd:nth-last-of-type(1) { border-bottom: 0; }
+
+.pull {
+  margin-top: clamp(48px, 6vw, 80px);
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+.pull p {
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 52ch;
+}
+
+.more-grid {
+  /* No border-top: the directory rows above already end in a hairline. */
+  margin-top: clamp(40px, 5vw, 64px);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.more-title {
+  font-family: var(--serif);
+  font-size: clamp(22px, 2.4vw, 26px);
+  line-height: 1.15;
+  margin-top: 10px;
+}
+
+/* --------------------------------------------------------------------------
+   Career
+   -------------------------------------------------------------------------- */
+
+.section-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(28px, 4vw, 56px);
+  align-items: end;
+  margin-bottom: clamp(40px, 5vw, 64px);
+  padding-bottom: 36px;
+  border-bottom: 1px solid var(--line);
+}
+.section-head .eyebrow { margin-bottom: 20px; }
+.section-head--baseline { align-items: baseline; }
+.section-head--single { grid-template-columns: 1fr; }
+
+.track-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  font: 500 13px var(--mono);
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* Career path: alternating cards, one stretched SVG behind. */
+
+.track { position: relative; margin-top: 20px; }
+.track-path {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  color: var(--accent);
+  stroke-width: 2;
+  vector-effect: non-scaling-stroke;  /* the stretch would smear it otherwise */
+}
+
+.steps {
+  position: relative;
+  z-index: 1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+.step {
+  position: relative;
+  width: 44%;
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  padding: 22px 24px;
+}
+.step:nth-child(odd) { margin-left: auto; }   /* zig */
+.step--now {
+  background: var(--accent-fill);
+  color: var(--on-accent);
+  border-color: var(--accent-fill);
+}
+.step-when {
+  font: 500 13px var(--mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.step--now .step-when { color: inherit; }
+.step-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(23px, 2.4vw, 28px);
+  line-height: 1.15;
+  margin-top: 8px;
+}
+.step-body {
+  font-size: clamp(17px, 1.5vw, 18.5px);
+  line-height: 1.6;
+  color: var(--muted);
+  margin-top: 8px;
+}
+.step--now .step-body { color: inherit; opacity: .8; }
+
+/* --------------------------------------------------------------------------
+   Portfolio
+   -------------------------------------------------------------------------- */
+
+.project-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  line-height: 1.2;
+  margin-top: 14px;
+  /* size comes from the type-scale contract at the end of this file */
+}
+
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.project-grid .mono-link { margin-top: 10px; letter-spacing: .1em; }
+
+/* Work with me borrows home components; one tweak: */
+
+.hero-grid .button { margin-top: 0; }
+
+/* --------------------------------------------------------------------------
+   Blog
+   -------------------------------------------------------------------------- */
+
+.blog-title { max-width: 20ch; line-height: 1; }
+
+.post-featured {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(24px, 3vw, 40px);
+  align-items: center;
+  margin-bottom: clamp(40px, 5vw, 56px);
+}
+.post-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 1.15;
+}
+.post-title--lg { font-size: clamp(26px, 3vw, 32px); margin-top: 12px; }
+.post-featured .eyebrow { letter-spacing: .1em; }
+
+.post-list { display: flex; flex-direction: column; }
+.post-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 32px;
+  padding: 28px 0;
+  border-top: 1px solid var(--line);
+}
+.post-row:last-child { border-bottom: 1px solid var(--line); }
+.post-date {
+  font: 500 13px var(--mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--dim);
+}
+
+/* --------------------------------------------------------------------------
+   Responsive
+   -------------------------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .hero-grid,
+  .section-head,
+  .post-featured { grid-template-columns: 1fr; }
+
+  .section-head { align-items: start; }
+  .more-grid { grid-template-columns: 1fr 1fr; }
+  .project-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* Below 700px: cards full width, curve becomes a vertical rail. */
+@media (max-width: 700px) {
+  .track-path { display: none; }
+
+  .steps { padding-left: 30px; }
+  .steps::before {
+    content: "";
+    position: absolute;
+    left: 5px;
+    top: 12px;
+    bottom: 12px;
+    width: 2px;
+    background: var(--accent);
+    opacity: .5;
+  }
+
+  .step, .step:nth-child(odd) { width: 100%; margin-left: 0; }
+  .step::before {
+    content: "";
+    position: absolute;
+    left: -28.5px;
+    top: 26px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--ink);   /* punches a gap in the rail */
+  }
+}
+
+@media (max-width: 620px) {
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 16px var(--gutter);
+  }
+  .nav { width: 100%; }
+
+  .more-grid,
+  .project-grid { grid-template-columns: 1fr; }
+
+  .pull { flex-direction: column; gap: 20px; }
+  .post-row { grid-template-columns: 1fr; gap: 10px; }
+  .footer { flex-direction: column; align-items: flex-start; }
+
+  /* Five mono labels don't fit 390px at the desktop tracking. */
+  .nav { font-size: 12px; letter-spacing: .1em; gap: 14px; }
+
+  /* Labels stack over values on small screens. */
+  .facts { grid-template-columns: 1fr; font-size: 16.5px; }
+  .facts dt { border-bottom: 0; padding: 14px 16px 0; }
+  .facts dd { border-left: 0; padding: 4px 16px 14px; }
+}
+
+/* --------------------------------------------------------------------------
+   Personal-brand components (home teasers, case studies, lab, speaking)
+   -------------------------------------------------------------------------- */
+
+.display--sm { font-size: clamp(28px, 3.4vw, 40px); }
+
+.section { margin-top: clamp(48px, 6vw, 80px); }
+
+.track-head + .post-list,
+.track-head + .lede { margin-top: 24px; }
+
+/* Tag chips */
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.chip {
+  font: 500 11.5px var(--mono);
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  border: 1px solid var(--edge);
+  padding: 5px 10px;
+}
+
+/* Outcome metrics, used on case pages. */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  margin-top: 20px;
+}
+.metric { background: var(--panel); padding: 14px 16px; }
+.metric b {
+  display: block;
+  font: 300 28px var(--serif);
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+.metric span {
+  font: 500 11px var(--mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Project cards with ghost numbers. */
+.case-card {
+  border: 1px solid var(--edge);
+  padding: 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.case-card-num {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: 44px;
+  line-height: 1;
+  color: var(--accent);
+  opacity: .35;
+}
+.case-card .project-title { margin-top: 0; }
+.case-card .body { margin-top: 0; }
+
+/* Status chips for own builds. */
+.chip--status { border-color: var(--accent); color: var(--accent); }
+.chip--shipped {
+  background: var(--accent-fill);
+  border-color: var(--accent-fill);
+  color: var(--on-accent);
+}
+
+/* Larger chips: workshop topics on the work-with-me page. */
+.chips--lg { margin-top: 22px; gap: 10px; }
+.chips--lg .chip { font-size: 13px; padding: 9px 14px; }
+#speaking .lede { margin-top: 14px; }
+#speaking .mono-link { margin-top: 26px; }
+
+/* Newsletter row (writing page). */
+.newsletter {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 22px 0;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: clamp(32px, 4vw, 48px);
+}
+.logo-substack { width: 20px; height: 23px; fill: #FF6719; flex: none; }
+.newsletter-name {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.2;
+}
+.newsletter-line { font-size: 16px; color: var(--muted); margin-top: 2px; }
+.newsletter .mono-link { margin-left: auto; }
+
+@media (max-width: 900px) {
+}
+@media (max-width: 620px) {
+  .metrics { grid-template-columns: 1fr; }
+  .newsletter { flex-wrap: wrap; }
+  .newsletter .mono-link { margin-left: 38px; }
+}
+
+/* Type scale, the contract: hero / display / display--sm / featured /
+   title 22 / lede / body 17. New components pick one, never invent one.
+   These land last so they win. */
+
+.post-title, .project-title, .more-title,
+.newsletter-name, .step-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 22px;
+  line-height: 1.25;
+}
+.case-title, .post-title--lg { font-size: clamp(26px, 3vw, 32px); }  /* case-title reserved for future case pages */
+.body, .step-body { font-size: 17px; line-height: 1.6; }
+
+/* Case-study pages: one column, lede-size prose, featured-size h2s. */
+
+.crumb {
+  display: inline-block;
+  font: 500 13px var(--mono);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-bottom: 28px;
+}
+.crumb:hover { color: var(--accent); }
+
+/* Case meta card: top-align the head columns on case pages. */
+.section-head:has(.case-meta) { align-items: start; }
+.case-meta { align-self: start; }
+
+.prose {
+  max-width: 62ch;
+  margin-top: clamp(36px, 5vw, 56px);
+}
+.prose p {
+  font-size: clamp(18px, 1.6vw, 20.5px);
+  line-height: 1.7;
+  margin-top: 1.15em;
+  text-wrap: pretty;
+}
+.prose h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(26px, 3vw, 32px);
+  line-height: 1.2;
+  margin-top: 1.7em;
+  text-wrap: balance;
+}
+.prose h2 + p { margin-top: .5em; }
+.prose a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.prose blockquote {
+  margin: 1.4em 0 0;
+  padding: 4px 0 4px 24px;
+  border-left: 2px solid var(--accent);
+}
+.prose blockquote p {
+  font-family: var(--serif);
+  color: var(--muted);
+  margin-top: 0;
+}
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 2.4em 0 0;
+}
+/* Closing italic credits line */
+.prose-note {
+  font-size: 17px !important;
+  line-height: 1.6;
+  color: var(--dim);
+  font-style: italic;
+}
+.prose-note em { font-style: italic; }
+
+/* Cards become links on the Lab */
+a.case-card { transition: border-color .18s ease; }
+a.case-card:hover { border-color: var(--accent); opacity: 1; }
+a.case-card:hover .project-title { color: var(--accent); }
+
+/* Case-page devices: pull-quote, highlighter, metrics-in-prose. Sparingly. */
+
+.pullquote,
+.prose p.pullquote {
+  margin-top: 2.2em;
+  padding-left: 26px;
+  border-left: 3px solid var(--accent);
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(24px, 2.6vw, 30px);
+  line-height: 1.3;
+  color: var(--paper);
+  text-wrap: balance;
+}
+/* .prose p would out-rank the bare class; the p.pullquote selector wins. */
+
+.hl {
+  background: linear-gradient(transparent 52%, rgba(28, 64, 201, .22) 0);
+}
+
+.prose .metrics { margin-top: 2em; }
+
+/* App pages: screenshot galleries and embedded snapshots. */
+
+.shots {
+  display: grid;
+  gap: 28px;
+  margin-top: clamp(36px, 5vw, 56px);
+}
+.shots--pair { grid-template-columns: 1fr 1fr; }
+
+.shot {
+  margin: 0;
+  border: 1px solid var(--edge);
+  background: var(--panel);
+  padding: clamp(14px, 2vw, 24px);
+}
+.shot img {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--line);
+}
+.shot figcaption {
+  font: 500 12px var(--mono);
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--dim);
+  margin-top: 12px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.shot iframe {
+  width: 100%;
+  height: 720px;
+  border: 1px solid var(--line);
+  background: #fff;
+  display: block;
+}
+.shot--card iframe { height: 420px; }
+
+@media (max-width: 900px) {
+  .shots--pair { grid-template-columns: 1fr; }
+}
+@media (max-width: 620px) {
+  .shot iframe { height: 520px; }
+}

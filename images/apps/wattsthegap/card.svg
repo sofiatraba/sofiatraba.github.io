@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630"
+     font-family="Georgia, 'Times New Roman', serif">
+  <rect width="1200" height="630" fill="#FFFDF4"/>
+
+  <!-- logo -->
+  <g transform="translate(70,52) scale(1.05)">
+    <circle cx="60" cy="60" r="58" fill="#FFD500" stroke="#111" stroke-width="4"/>
+    <path d="M14 88 L34 74 L44 78 L62 56 L74 60 L96 30" fill="none"
+          stroke="#111" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="44" cy="78" r="5.5" fill="#fff" stroke="#111" stroke-width="3"/>
+    <circle cx="96" cy="30" r="5.5" fill="#111"/>
+    <path d="M52 92 L98 44" stroke="#111" stroke-width="2" stroke-dasharray="2 5"/>
+    <text x="60" y="108" text-anchor="middle" font-style="italic"
+          font-size="13" fill="#111">the gap</text>
+  </g>
+
+  <!-- wordmark -->
+  <rect x="424" y="72" width="128" height="72" fill="#FFD500"/>
+  <text x="210" y="132" font-size="70" font-weight="bold" fill="#111">watts</text>
+  <text x="432" y="132" font-size="70" font-weight="bold" fill="#111">the</text>
+  <text x="562" y="132" font-size="70" font-weight="bold" fill="#111">gap</text>
+  <text x="212" y="176" font-size="26" font-style="italic" fill="#111"
+        fill-opacity=".75">Mind the gap. The watt gap. To Poga&#269;ar.</text>
+
+  <!-- the number -->
+  <rect x="82" y="238" width="1036" height="300" fill="#111"/>
+  <rect x="70" y="226" width="1036" height="300" fill="#FFD500"
+        stroke="#111" stroke-width="5"/>
+  <text x="120" y="296" font-size="30" letter-spacing="5" fill="#111">AT MY BEST I AM</text>
+  <text x="114" y="452" font-size="185" font-weight="bold" fill="#111">29%</text>
+  <text x="560" y="410" font-size="46" font-style="italic" fill="#111">of a Tour de France</text>
+  <text x="560" y="468" font-size="46" font-style="italic" fill="#111">winner</text>
+
+  <text x="70" y="590" font-size="26" fill="#111" fill-opacity=".8">Physics does the maths. The AI writes one paragraph.</text>
+</svg>

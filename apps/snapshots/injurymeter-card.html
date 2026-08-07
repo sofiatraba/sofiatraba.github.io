@@ -1,0 +1,124 @@
+<title>Injurymeter — preview card</title>
+
+<style>
+  :root {
+    --bg: #f4f5f3;
+    --card: #ffffff;
+    --ink: #16191a;
+    --muted: #646d6e;
+    --faint: #939b99;
+    --rule: #dfe3e0;
+    --term: #12161a;
+    --term-ink: #cfd6d4;
+    --term-dim: #6f7d7a;
+    --accent: #145048;
+    --warn: #c08a2e;
+    --sans: "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1211; --card: #171b1a; --ink: #eceeec; --muted: #939b99;
+      --faint: #6d7573; --rule: #2a302e; --accent: #5fbfae;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #f4f5f3; --card: #fff; --ink: #16191a; --muted: #646d6e;
+    --faint: #939b99; --rule: #dfe3e0; --accent: #145048;
+  }
+  :root[data-theme="dark"] {
+    --bg: #0f1211; --card: #171b1a; --ink: #eceeec; --muted: #939b99;
+    --faint: #6d7573; --rule: #2a302e; --accent: #5fbfae;
+  }
+
+  body {
+    background: var(--bg);
+    font-family: var(--sans);
+    display: flex;
+    justify-content: center;
+    padding: 32px 16px;
+  }
+
+  .card {
+    width: 100%;
+    max-width: 460px;
+    background: var(--card);
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .head { padding: 20px 22px 16px; display: flex; flex-direction: column; gap: 6px; }
+  .head .name {
+    font-size: 17px; font-weight: 600; color: var(--ink);
+    display: flex; align-items: center; gap: 9px;
+  }
+  .head .name span.dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent); flex: none;
+  }
+  .head .what { font-size: 14px; color: var(--muted); line-height: 1.45; }
+
+  .term {
+    background: var(--term);
+    padding: 16px 18px;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    line-height: 1.62;
+    color: var(--term-ink);
+    overflow-x: auto;
+    white-space: pre;
+    font-variant-numeric: tabular-nums;
+  }
+  .term .dim { color: var(--term-dim); }
+  .term .big { color: #e0e6e4; font-size: 13px; }
+  .term .zone { color: #7fa8c9; }
+  .term .warn { color: var(--warn); }
+  .term .rec { color: #7fc9ab; }
+
+  .foot {
+    padding: 13px 22px 16px;
+    display: flex; flex-wrap: wrap; gap: 6px 14px;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 10.5px;
+    color: var(--faint);
+  }
+  .foot b { color: var(--muted); font-weight: 600; }
+</style>
+
+<div class="card">
+  <div class="head">
+    <div class="name"><span class="dot"></span>Injurymeter</div>
+    <div class="what">
+      Reads four months of Strava every Monday and says whether the training
+      is something I can keep doing. The advice is a lookup table, so the AI
+      writes the report and never picks the verdict.
+    </div>
+  </div>
+
+  <div class="term">$ python3 injurymeter.py
+
+<span class="dim">58 activities across 120 days
+11 had no heart-rate data; minutes used instead
+</span><span class="warn">[!] those are 37% of total load, different scale
+</span>
+<span class="big">TODAY'S ACWR: 0.73</span>  <span class="zone">UNDERTRAINING (&lt; 0.8)</span>
+<span class="dim">  acute 7-day    19.0
+  chronic 28-day 25.9
+  monotony        0.49</span>
+
+RECOMMENDATION
+<span class="rec">  You've got headroom. If you feel like
+  doing more, your body isn't the excuse.</span>
+
+<span class="dim">ACWR ABOVE 1.5, LAST 90 DAYS
+  * 11-16 Jul, 6 days, peak 2.52</span></div>
+
+  <div class="foot">
+    <span><b>Python</b> stdlib only</span>
+    <span><b>49</b> tests</span>
+    <span><b>$6</b>/year</span>
+    <span><b>0</b> servers</span>
+  </div>
+</div>

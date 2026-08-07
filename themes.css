@@ -1,0 +1,224 @@
+/* ==========================================================================
+   ARCHIVE — no page links this file anymore. The palette decision is made
+   (white + Klein ultramarine, vermilion dip; lives in styles.css :root).
+   Kept for reference: the 13 dark explorations plus later light candidates.
+   ==========================================================================
+   Palettes — lifted from the design exploration doc "Sofia Portfolio",
+   keeping the original option ids and descriptions so they match what you
+   already looked at there.
+
+   The default (no attribute) is 12b and lives in styles.css. To switch
+   permanently, add the attribute to the <html> tag in index.html:
+
+       <html lang="en" data-palette="10b">
+
+   To compare them live, open the site with ?palettes appended:
+
+       http://localhost:4321/?palettes
+
+   Each palette sets the same eight tokens and nothing else:
+     --ink       page background
+     --panel     raised cards and image slots
+     --paper     primary text  (--paper-rgb is the same colour as an r,g,b
+                 triple — the hairline rules are derived from it)
+     --muted     body copy
+     --dim       labels, inactive nav
+     --accent    climbs, links, buttons, the "now" marker
+     --dip       the one downward turn on the career graph
+   ========================================================================== */
+
+/* --- Blues ------------------------------------------------------------- */
+
+/* 12a — Muted slate-blue, dusty. Grayer than Klein, still reads as blue.
+         Coral stays the same pop. */
+:root[data-palette="12a"] {
+  --ink: #2b3446; --panel: #333d51; --paper: #f2ede3; --paper-rgb: 242, 237, 227;
+  --muted: #c7ccd8; --dim: #9199ab; --accent: #ff8161; --dip: #9aa9c4;
+}
+
+/* 10b — Saturated ultramarine ground, warm white ink, coral accent.
+         Bold and legible, not a muted earth tone. */
+:root[data-palette="10b"] {
+  --ink: #152a8f; --panel: #1c359e; --paper: #faf6ec; --paper-rgb: 250, 246, 236;
+  --muted: #c9d1f0; --dim: #9aa8e0; --accent: #ff7a54; --dip: #9aa8e0;
+}
+
+/* 3c — Deep slate-navy & pale sky. Calm and credible.
+        The most "hire this person" of its set. */
+:root[data-palette="3c"] {
+  --ink: #0d1524; --panel: #161f31; --paper: #e6ecf5; --paper-rgb: 230, 236, 245;
+  --muted: #adbccf; --dim: #7d8ca3; --accent: #7fb8f0; --dip: #e8b6a0;
+}
+
+/* 5c — Ink blue-black & copper. Credible and a bit unusual. Metal, not neon. */
+:root[data-palette="5c"] {
+  --ink: #0f1418; --panel: #171e24; --paper: #eaeef0; --paper-rgb: 234, 238, 240;
+  --muted: #aeb6bb; --dim: #7e878d; --accent: #c8794a; --dip: #9db4a8;
+}
+
+/* --- Greens & teals ---------------------------------------------------- */
+
+/* 10c — Deep bottle-green ground, bright warm white ink, brass accent.
+         Rich, high-contrast, still original. */
+:root[data-palette="10c"] {
+  --ink: #0e3a2c; --panel: #134634; --paper: #f7f3e6; --paper-rgb: 247, 243, 230;
+  --muted: #bcd6c8; --dim: #8fb3a0; --accent: #e0b256; --dip: #8fb3a0;
+}
+
+/* 11a — Deep teal ground, peach accent. Cooler-warm instead of blue-orange. */
+:root[data-palette="11a"] {
+  --ink: #0c2b30; --panel: #123a40; --paper: #f4ede2; --paper-rgb: 244, 237, 226;
+  --muted: #b9d3d2; --dim: #7ea6a2; --accent: #f0a06a; --dip: #7ea6a2;
+}
+
+/* 3b — Near-black & jade. Fresh and product-y. Green without going lime. */
+:root[data-palette="3b"] {
+  --ink: #0b1110; --panel: #131c1a; --paper: #e8f0ec; --paper-rgb: 232, 240, 236;
+  --muted: #a9bdb5; --dim: #7d918a; --accent: #5fd8a4; --dip: #dcc78a;
+}
+
+/* --- Warm darks -------------------------------------------------------- */
+
+/* 11c — Near-black warm ground, rust-clay accent. Quiet confidence. */
+:root[data-palette="11c"] {
+  --ink: #181410; --panel: #211b15; --paper: #f3ece2; --paper-rgb: 243, 236, 226;
+  --muted: #c2b6a8; --dim: #8f8375; --accent: #d17a52; --dip: #a89a86;
+}
+
+/* 3a — Charcoal & brass. Warm, expensive, editorial.
+        Reads grown-up rather than startup. */
+:root[data-palette="3a"] {
+  --ink: #131313; --panel: #1d1c19; --paper: #f0ece4; --paper-rgb: 240, 236, 228;
+  --muted: #b3aca0; --dim: #8a8378; --accent: #c99a4b; --dip: #9fb3a8;
+}
+
+/* 5a — Graphite & soft gold. Muted yellow, no acid. Warm, expensive, quiet. */
+:root[data-palette="5a"] {
+  --ink: #14130f; --panel: #1e1c17; --paper: #efece3; --paper-rgb: 239, 236, 227;
+  --muted: #b5afa2; --dim: #8b8577; --accent: #d4ad5f; --dip: #9aa79c;
+}
+
+/* --- The loud ones ----------------------------------------------------- */
+
+/* 11b — Aubergine-plum ground, warm gold accent. Rich, plum instead of green. */
+:root[data-palette="11b"] {
+  --ink: #2a1330; --panel: #361b3d; --paper: #f4ede4; --paper-rgb: 244, 237, 228;
+  --muted: #d2bdd6; --dim: #a389a8; --accent: #e0b04a; --dip: #a389a8;
+}
+
+/* 2a — Ink & periwinkle. Cool and quiet, electric blue-violet accent. */
+:root[data-palette="2a"] {
+  --ink: #0e1016; --panel: #171a24; --paper: #eceaf3; --paper-rgb: 236, 234, 243;
+  --muted: #b7b3c6; --dim: #8480a0; --accent: #9b8dff; --dip: #e0a3c8;
+}
+
+/* 1c — Dark studio, lime. The loudest — and the palette the altitude graph
+        was originally drawn in. */
+:root[data-palette="1c"] {
+  --ink: #14140f; --panel: #1e1e17; --paper: #f2ede3; --paper-rgb: 242, 237, 227;
+  --muted: #a29c8f; --dim: #8f897c; --accent: #c6f24e; --dip: #e07a5f;
+}
+
+/* ==========================================================================
+   LIGHT GROUNDS
+
+   Not from the exploration doc — every one of those 13 was dark, so there was
+   no light option to compare against. These three are that missing half.
+
+   Two extra things a light palette must set:
+     --paper-rgb   the TEXT colour as an r,g,b triple (hairlines derive from
+                   it, so on light grounds they become subtle dark rules)
+     --on-accent   text sitting ON an accent fill. Dark themes reuse --ink;
+                   on light grounds --ink is nearly white, so it must be set
+                   explicitly or buttons render white-on-coral.
+
+   The accents are deeper than #ff7a54 on purpose: the original coral only
+   reaches ~2.3:1 against white, which fails as link text. These sit at 4.8:1+
+   while staying in the same colour family.
+   ========================================================================== */
+
+/* light-warm — warm paper, deep coral. The direct counterpart to 12b:
+   same brand, inverted ground. Warmest and most approachable of the three. */
+:root[data-palette="light-warm"] {
+  --ink: #faf7f1; --panel: #f2ede4; --paper: #16202f; --paper-rgb: 22, 32, 47;
+  --muted: #4f5a6b; --dim: #6d7a8c; --accent: #c14418; --dip: #2f6ea8;
+  --on-accent: #ffffff;
+}
+
+/* light-cream — editorial cream, ink, deep green. Reads like a magazine
+   rather than a product. The furthest from the AI-startup default. */
+:root[data-palette="light-cream"] {
+  --ink: #f5f2ea; --panel: #ece7dc; --paper: #191a17; --paper-rgb: 25, 26, 23;
+  --muted: #53544d; --dim: #77786f; --accent: #1c6b52; --dip: #a85a2a;
+  --on-accent: #ffffff;
+}
+
+/* light-mono — gallery white, near-black, vermilion. Maximum neutrality:
+   the photos and the work supply all the colour. */
+:root[data-palette="light-mono"] {
+  --ink: #ffffff; --panel: #f5f5f5; --paper: #111111; --paper-rgb: 17, 17, 17;
+  --muted: #494949; --dim: #6e6e6e; --accent: #d1401c; --dip: #2b6cb0;
+  --on-accent: #ffffff;
+}
+
+/* ==========================================================================
+   NEUTRAL GROUNDS  ← start here
+
+   No tint in the background at all: pure white or true carbon, zero warm or
+   cool cast. All the colour lives in the accent. This sidesteps both clichés
+   — the AI navy and the studio beige — without betting on a fashionable
+   ground colour, because a neutral ground can't go out of fashion.
+
+   Where these split --accent from --accent-fill, it's so the bright brand
+   coral survives as a block of colour while links use a darker version of
+   the same hue that's actually legible on white.
+   ========================================================================== */
+
+/* white-klein — pure white, near-black, ultramarine. The blueprint accent
+   with the pastel ground removed. Swiss, technical, confident. */
+:root[data-palette="white-klein"] {
+  --ink: #ffffff; --panel: #f6f6f6; --paper: #0d0d0d; --paper-rgb: 13, 13, 13;
+  --muted: #444444; --dim: #6a6a6a; --accent: #1c40c9; --dip: #6a6a6a;
+  --on-accent: #ffffff;
+}
+
+/* white-coral — pure white, near-black, and the original coral kept intact
+   on fills. Links use a deeper vermilion because #ff7a54 only reaches 2.3:1
+   on white; side by side they read as one colour. */
+:root[data-palette="white-coral"] {
+  --ink: #ffffff; --panel: #f6f6f6; --paper: #0d0d0d; --paper-rgb: 13, 13, 13;
+  --muted: #444444; --dim: #6a6a6a; --accent: #d03c18; --dip: #2f5fbf;
+  --accent-fill: #ff7a54; --on-accent: #10192c;
+}
+
+/* carbon-coral — true neutral near-black, no blue cast, brand coral intact.
+   Keeps the drama of a dark site while shedding the navy that reads as
+   generic AI product. */
+:root[data-palette="carbon-coral"] {
+  --ink: #0f0f0f; --panel: #191919; --paper: #f4f4f4; --paper-rgb: 244, 244, 244;
+  --muted: #b4b4b4; --dim: #8a8a8a; --accent: #ff7a54; --dip: #7fa8e8;
+  --on-accent: #0f0f0f;
+}
+
+/* ==========================================================================
+   TINTED LIGHT GROUNDS
+   ========================================================================== */
+
+/* blueprint — cool technical paper with a real ultramarine. Descends from
+   10b in the exploration doc (the Klein blue), but light. The dip is
+   deliberately slate, not a second bright colour: climbs are electric,
+   the dip goes quiet. That's the story told in colour. */
+:root[data-palette="blueprint"] {
+  --ink: #f4f6f9; --panel: #e8edf3; --paper: #0e1822; --paper-rgb: 14, 24, 34;
+  --muted: #46525e; --dim: #5f6b79; --accent: #1c40c9; --dip: #5f6b79;
+  --on-accent: #ffffff;
+}
+
+/* oxblood — gallery white, near-black text, one deep oxblood accent.
+   Adult and editorial without touching the beige/rust axis. The most
+   restrained: the work and the photographs supply everything else. */
+:root[data-palette="oxblood"] {
+  --ink: #fbfaf9; --panel: #f1efed; --paper: #121110; --paper-rgb: 18, 17, 16;
+  --muted: #4a4644; --dim: #6d6864; --accent: #7d1f33; --dip: #3f5f7a;
+  --on-accent: #ffffff;
+}

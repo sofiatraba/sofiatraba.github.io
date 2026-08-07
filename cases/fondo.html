@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>I was too lazy to plan dinner, so obviously I built an app · Sofia Traba</title>
+<meta name="description" content="Fondo: a meal-prep app that plans the week, explains why, and pushes the whole shop into a real supermarket basket. Also, the fortnight it thought the German for beef was dog food.">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="I was too lazy to plan dinner, so obviously I built an app">
+<meta property="og:description" content="A wrong dinner I would notice at dinner. A wrong protein target I would never notice at all.">
+<meta property="og:image" content="../images/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,500;1,6..72,300&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css?v=18">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <a class="brand" href="../index.html">Sofia Traba</a>
+  <nav class="nav" aria-label="Sections">
+    <a href="../index.html">Home</a>
+    <a href="../career.html">Career</a>
+    <a href="../portfolio.html" aria-current="page">The Lab</a>
+  </nav>
+</header>
+
+<main id="main" class="wrap">
+
+  <a class="crumb" href="../portfolio.html">← The Lab</a>
+
+  <div class="section-head">
+    <div>
+      <p class="eyebrow accent">02 · Own build</p>
+      <h1 class="display">I was too lazy to plan dinner, so obviously I built an app</h1>
+    </div>
+
+    <div class="card case-meta">
+      <p class="card-head">Project</p>
+      <dl class="facts">
+        <dt>Name</dt><dd>Fondo</dd>
+        <dt>Role</dt><dd> Product, design, code</dd>
+        <dt>Stack</dt><dd>Next.js 16 · Prisma · Claude Opus</dd>
+        <dt>Status</dt><dd>Building, phase 1 shipped</dd>
+        <dt>The app</dt><dd><a class="accent" href="../apps/fondo.html">See what it looks like →</a></dd>
+        <dt>Repo</dt><dd><a class="accent" href="https://github.com/sofiatraba/Fondo" rel="noopener">github.com/sofiatraba/Fondo</a></dd>
+      </dl>
+    </div>
+  </div>
+
+  <article class="prose">
+    <p>There are two kinds of lazy. The kind that does nothing, and the kind that will happily spend a month building something to avoid twenty minutes of tedium. I am the second kind and I have stopped apologising for it.</p>
+
+    <p>The twenty minutes arrived every Sunday. Decide what we are eating. Work out what that needs, and what I have been training, and whether the two have anything to do with each other. Then type it all into Picnic, my favourite supermarket on wheels.</p>
+
+    <p>I cannot quite believe I am admitting in public that picking ingredients in an app, to have them delivered to my door, by someone else, was too much work for me.</p>
+
+    <p><span class="hl">But that is the arrangement I have with myself. I never have to do a boring thing twice, as long as I am willing to do a much harder thing once.</span></p>
+
+    <p>So the boring thing is gone. I open the app and the week is already sitting there. Seven dinners, each with a line underneath explaining why it landed on that day. <em>Usually Hyrox on Tuesday, so protein leads.</em> Below that, everything the week needs me to buy, the staples, and the compulsory after-dinner cookie, which in this house is not optional and therefore appears on the shopping list as a tax.</p>
+
+    <p>One button and it is all in the Picnic basket.</p>
+
+    <p>When the week does not suit, I say so. Last week I typed <em>make Tuesday vegetarian, I’m out Friday.</em> Friday emptied. Tuesday turned into a halloumi salad, picked, it explained, because Tuesday is a lifting day and that salad has more protein than anything else I own. Best use of AI I have ever done.</p>
+
+    <p>Four seconds :)</p>
+
+    <div class="metrics" aria-label="The Sunday problem, after">
+      <div class="metric"><b>7</b><span>Dinners, decided</span></div>
+      <div class="metric"><b>1</b><span>Button to the basket</span></div>
+      <div class="metric"><b>4s</b><span>To replan the week</span></div>
+    </div>
+
+    <h2>The fortnight my app thought beef was dog food</h2>
+
+    <p>It has not all gone this smoothly. There was, for instance, the fortnight when my app was convinced that the German word for beef is Vitakraft.</p>
+
+    <p>Picnic’s catalogue is German and my recipes are in English (wip, stay tuned! ;)), so the app had to teach itself the translations. It did this by searching a word and watching which German term kept reappearing in the results, which is a decent idea until you search for beef, get eleven products back, and five of them are Vitakraft. Vitakraft is dog food.</p>
+
+    <p>It was extremely confident about this. My shopping list sat one click away from serving my boyfriend a bowl of premium beef-flavoured chunks.</p>
+
+    <p>What saved us was not the app noticing. It could not notice. It had no way of knowing that its lovely new German word meant “dog”. So I stopped letting it decide: it can suggest a word, but the supermarket has to come back with actual food that matches before the app will believe it, and if the results look like nonsense the whole guess gets thrown away.</p>
+
+    <p>The dog food was not even the AI, by the way. That was my own code, being statistically confident and completely wrong, which is precisely why I keep the AI on a short leash as well. It reads my recipes, picks the meals and works out what <em>I’m out Friday</em> means, because those are language problems and language is what it is genuinely good at. It goes nowhere near the nutrition numbers, which are dull tested code out of a published guideline. <span class="hl">A wrong dinner I would notice at dinner. A wrong protein target I would never notice at all.</span></p>
+
+    <h2>The next problem is a better one</h2>
+
+    <p>It still cannot tell that chicken for a sandwich and chicken for a curry are completely different products, so I match a lot of things by hand. The app knows which recipe every ingredient came from and currently throws that away the second it searches, which feels like a waste of a perfectly good clue.</p>
+
+    <p>Anyway. I have not thought about dinner in a month, and nobody has been fed dog food. Worth every evening, and more to come.</p>
+  </article>
+
+</main>
+
+<footer class="footer">
+  <p>© Sofia Traba <span id="year">2026</span></p>
+  <p class="footer-links">
+    <a href="https://www.linkedin.com/in/trabasofia/" rel="me noopener">LinkedIn</a>
+  </p>
+</footer>
+
+<script src="../main.js?v=18"></script>
+</body>
+</html>

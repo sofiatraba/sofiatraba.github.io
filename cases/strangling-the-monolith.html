@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strangling the Monolith · Sofia Traba</title>
+<meta name="description" content="Three years helping take apart the system that printed every label and invoice for a European retailer, without ever being allowed to switch it off.">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Strangling the Monolith">
+<meta property="og:description" content="You migrate the knowledge before you migrate the code.">
+<meta property="og:image" content="../images/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,500;1,6..72,300&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css?v=18">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <a class="brand" href="../index.html">Sofia Traba</a>
+  <nav class="nav" aria-label="Sections">
+    <a href="../index.html">Home</a>
+    <a href="../career.html">Career</a>
+    <a href="../portfolio.html" aria-current="page">The Lab</a>
+  </nav>
+</header>
+
+<main id="main" class="wrap">
+
+  <a class="crumb" href="../portfolio.html">← The Lab</a>
+
+  <div class="section-head">
+    <div>
+      <p class="eyebrow accent">05 · Client work</p>
+      <h1 class="display">Strangling the Monolith</h1>
+    </div>
+
+    <div class="card case-meta">
+      <p class="card-head">Project</p>
+      <dl class="facts">
+        <dt>Role</dt><dd>Fullstack consultant</dd>
+        <dt>When</dt><dd>2023–2025</dd>
+        <dt>Scale</dt><dd>European retailer, dozens of countries</dd>
+        <dt>Client</dt><dd>White-labelled</dd>
+      </dl>
+    </div>
+  </div>
+
+  <article class="prose">
+    <p>My first client handed me a system that printed shipping labels and invoices, and I spent the next three years helping take it apart without ever being allowed to switch it off.</p>
+
+    <p>The client was a large European retailer with stores in dozens of countries and an online business that had grown by accumulation, each bolted onto whatever systems happened to exist that year. My team owned everything that happens after a customer clicks buy.</p>
+
+    <p>Somewhere in a warehouse a label has to print, an invoice has to match it, and a parcel has to be allowed to leave. One application did all of that, for every market, brand and country and it had been written years earlier by people who had long since moved on.</p>
+
+    <p>It ran. That is the whole difficulty. A system that falls over argues against itself every time somebody gets paged. <span class="hl">One that works while quietly costing a fortune has to be talked out of the building.</span> I arrived assuming that part would be easy, because I had read the code and the code was frightening. Nobody funds frightening. The parcels still went out yesterday.</p>
+
+    <p>The argument that worked had nothing to do with the code. Every country brought its own carrier rules and its own invoice layout, so every new market meant changing that application, and changing it was slow in ways nobody could predict. The honest answer to how long until we can sell in a new country was months, and the reason was sitting in our repository.</p>
+
+    <p>So we stopped selling a cleaner codebase and started selling a number. Opening a market should take weeks, and it should not need us. That is a business case. Tidiness never was.</p>
+
+    <h2>My instinct was to just rewrite it</h2>
+
+    <p>Build the replacement properly this time, pick a date, cut over, throw the old thing away. It is tempting because it has an end, and end dates are comforting when you are staring at fifteen years of accumulated decisions.</p>
+
+    <p>We did not do it, and the reason fits in one sentence: <span class="hl">fulfillment cannot ship broken</span>. If the cutover fails, parcels do not leave the warehouse. Somebody is standing there holding a box that has nowhere to go, and they are going to keep standing there while you read logs.</p>
+
+    <p>So we strangled it instead, which is a horrible name for a sensible idea. You put a routing layer in front of the old system, and from then on that layer decides, request by request, whether this one goes to the thing that has always handled it or to the new service you just wrote. On day one it routes everything to the old system and nothing has changed. Then you move one small piece of behaviour across, and the layer starts splitting traffic. The old system keeps running underneath the whole time, which means every release is reversible, and the worst possible outcome of a bad afternoon is that you point the router back where it came from.</p>
+
+    <p>The counterintuitive part is which piece you move first. Everything in you wants to start with the piece that matters most, because that is where the value is. But no. You should start with the smallest and least interesting thing you can find, because the first slice is not really about delivery. It is where you find out what the old system actually does, as opposed to what everyone believes it does, and that discovery involves behaviour nobody wrote down, data nobody drew, and at least one caller nobody knew existed.</p>
+
+    <p class="pullquote">You want to be surprised somewhere cheap.</p>
+
+    <p>The part the business cares about most is the most expensive place in the building to learn something new.</p>
+
+    <p>Then you repeat, for years, and the old system slowly goes quiet. You switch it off when the router has been sending it nothing for long enough that you believe the silence.</p>
+
+    <h2>The part I got wrong</h2>
+
+    <p>I expected the migration to be hard for technical reasons. Data comes out of an old schema carrying assumptions nobody ever stated. Calls that used to happen inside one process now cross a network. None of that is interesting, it is just the tax.</p>
+
+    <p>What I did not expect was that the team would not want to do it, and my first read of that was the least generous and least accurate one available. I thought it was inertia.</p>
+
+    <p>In a monolith, knowing the codebase is what seniority is made of. It is why people walk over to your desk instead of somebody else’s, and it took years to build. Take the monolith apart and that resets. At that point nobody had said out loud what expertise was supposed to mean afterwards, or who was going to be the person with the answers once the answers lived in six services instead of one repository. Nobody was being difficult. They were being asked to hand over the thing that made them valuable, in exchange for a promise nobody had bothered to make explicit.</p>
+
+    <p>So we stopped treating it as an attitude problem and started treating it as a distribution problem. We paired on everything, wrote down what had only ever been spoken, and said out loud each week what was moving next. Three different activities doing one job, which was getting the knowledge out of a few heads and into something the whole team owned. Nobody loses their standing when everybody gains it, and the resistance went away roughly as fast as the secrets did.</p>
+
+    <p class="pullquote">Migrate the knowledge before you migrate the code.</p>
+
+    <p>If I kept one line from three years, that is it. The code was never the hard part.</p>
+
+    <h2>What came out of it</h2>
+
+    <div class="metrics" aria-label="Outcomes">
+      <div class="metric"><b>~80%</b><span>Less paper</span></div>
+      <div class="metric"><b>4–6 wks</b><span>Vendor selection, from months</span></div>
+      <div class="metric"><b>0</b><span>Cutover days, fulfilment never went down</span></div>
+    </div>
+
+    <p>The new solution went live across every shop in the group. Paper dropped by around 80% once documents became something people could pull for themselves rather than something printed and posted around the business. Vendor selection came down to four to six weeks, because for the first time Product, Tech and Business had a shared way of judging an option instead of three private ones. That last change outlived the project, which is usually how you know a process fix was real rather than theatre.</p>
+
+    <p>And there was never a cutover day. Three years of migration, and fulfilment never went down.</p>
+
+    <p>The thing I would tell my earlier self is that incremental sounds like the cheap option and it is not. You run two systems in parallel for years, and you pay for both, and the team carries both in their heads. What you are buying is the ability to be wrong on a Tuesday without anyone noticing. I did not say that clearly enough at the start, and every question about why we were still paying for the old system was a bill for that.</p>
+
+    <h2>Which is all very well for shipping labels</h2>
+
+    <p>Right now a lot of people are being told to rip out something that works and rebuild it with AI in the middle. The pitch has the same shape as the big rewrite always did. It is cleaner, it is modern, it will be so much better once it is done, and there is a date on a slide.</p>
+
+    <p>The answer is the same too. Put the new thing behind a router and give it the smallest, least important decision you have. Let it run next to the system that already works, where you can compare the two and switch back in an afternoon. Move the interesting decisions across only once the boring ones have survived contact with real traffic. And before any of it, work out who in the room built their standing on the system you are replacing, because they will be right about more things than you expect, and nobody will tell you that in a steering committee.</p>
+
+    <p>The monolith went quiet long before anyone turned it off. That is the only decent ending a system like that gets.</p>
+  </article>
+
+</main>
+
+<footer class="footer">
+  <p>© Sofia Traba <span id="year">2026</span></p>
+  <p class="footer-links">
+    <a href="https://www.linkedin.com/in/trabasofia/" rel="me noopener">LinkedIn</a>
+  </p>
+</footer>
+
+<script src="../main.js?v=18"></script>
+</body>
+</html>

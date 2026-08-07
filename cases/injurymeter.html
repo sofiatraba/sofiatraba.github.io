@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rest is a performance enhancing drug · Sofia Traba</title>
+<meta name="description" content="Injurymeter reads eight sports out of Strava and answers one question every Monday: is this fatigue, or is it injury risk? The verdict is code. The paragraphs are AI.">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rest is a performance enhancing drug">
+<meta property="og:description" content="The AI reads the finished numbers and writes the paragraphs around them, and it doesn't get a vote on the verdict.">
+<meta property="og:image" content="../images/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,500;1,6..72,300&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css?v=18">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <a class="brand" href="../index.html">Sofia Traba</a>
+  <nav class="nav" aria-label="Sections">
+    <a href="../index.html">Home</a>
+    <a href="../career.html">Career</a>
+    <a href="../portfolio.html" aria-current="page">The Lab</a>
+  </nav>
+</header>
+
+<main id="main" class="wrap">
+
+  <a class="crumb" href="../portfolio.html">← The Lab</a>
+
+  <div class="section-head">
+    <div>
+      <p class="eyebrow accent">03 · Own build</p>
+      <h1 class="display">Rest is a performance enhancing drug</h1>
+    </div>
+
+    <div class="card case-meta">
+      <p class="card-head">Project</p>
+      <dl class="facts">
+        <dt>Name</dt><dd>Injurymeter</dd>
+        <dt>Role</dt><dd>Everything: product, code</dd>
+        <dt>Stack</dt><dd>Python, one file · scheduled Claude routine</dd>
+        <dt>Status</dt><dd>Shipped, runs weekly</dd>
+        <dt>The app</dt><dd><a class="accent" href="../apps/injurymeter.html">The Monday report →</a></dd>
+        <dt>Repo</dt><dd><a class="accent" href="https://github.com/sofiatraba/injurymeter" rel="noopener">github.com/sofiatraba/injurymeter</a></dd>
+      </dl>
+    </div>
+  </div>
+
+  <article class="prose">
+    <p>I train eight different things, which is either impressive or a symptom depending on who you ask: kitesurf, road bike, run, swim, gym, surf, yoga, and a walk that Strava insists on logging as exercise.</p>
+
+    <p>The trouble with eight sports is that nothing adds them up. If you only run, your watch will happily nag you about overdoing it. Spread the same amount of work across a kite, a bike and a swimming pool and every app I’ve tried quietly assumes you spent the week lying down. So I could tell you whether last week felt good, and absolutely nothing about whether it was too much.</p>
+
+    <p>Sports science sorted this out years ago with a single number: what you did this week, divided by what you’ve been doing all month. Sail far enough above your own monthly average and you’re asking your body for something it hasn’t been trained to do, which is roughly where injuries happen. <span class="hl">Strava is sitting on every figure required and has never once done the division.</span></p>
+
+    <h2>I asked a chatbot how to build it first</h2>
+
+    <p>Before building anything I asked a chatbot how it would approach the problem, mostly to check I wasn’t missing something obvious. It came back with a database, webhooks, a scheduler, an email service, a dashboard, and a strong recommendation that I rate every workout by hand on a scale of one to ten, forever. Excellent advice for a product with actual users, slightly unhinged for a woman who wants to know whether to skip Thursday.</p>
+
+    <p>I wrote one file. Every Monday morning it pulls four months of history out of Strava, does the division, and hands me a few short paragraphs: how hard I’ve been going lately against my own recent normal, whether that’s comfortable or worth watching, and one line telling me what to do about it. It runs on my laptop, costs about six dollars a year, and there’s nothing to keep alive.</p>
+
+    <div class="metrics" aria-label="The whole system">
+      <div class="metric"><b>8</b><span>Sports added up</span></div>
+      <div class="metric"><b>7</b><span>Possible verdicts</span></div>
+      <div class="metric"><b>$6</b><span>A year to run</span></div>
+    </div>
+
+    <h2>The AI doesn’t get a vote on the verdict</h2>
+
+    <p>The design decision I’d defend in a room full of engineers is what happens inside that last line. The advice has exactly seven possible values, because it comes from two numbers crossed against each other, and I wrote all seven sentences down before I wrote any code. The AI reads the finished numbers and writes the paragraphs around them, and it doesn’t get a vote on the verdict.</p>
+
+    <p>That sounds like a strange thing to bother with until you picture the same report going out every week for a year. A model asked to weigh up two numbers will land somewhere sensible every time, and somewhere very slightly different every time, so twelve weeks later you’re reading a trend that’s partly your training and partly the model having a slightly different Tuesday. Code gives the same answer to the same numbers until I change it on purpose, and I can test that it does.</p>
+
+    <h2>No cron job, no deployment</h2>
+
+    <p>There’s no cron job either, and nothing deployed anywhere. The thing that runs it every Monday is a scheduled Claude routine, which is really just a paragraph of English telling it to run the script, read the output and write the week up. That felt like cheating until I noticed the job has two genuinely different halves: running a deterministic script, and turning the result into something a human will actually read on a Monday morning. Cron handles the first and then wants an email service bolted on for the second. A routine does both, keeps my Strava keys sitting on my own laptop instead of in somebody’s CI secrets, and when it breaks it says so in a chat window rather than failing quietly into a void, which is more than my last three side projects managed.</p>
+
+    <p>The same shape turns up anywhere a report goes out on a schedule. Swap my training for a Monday trading report and the code owns what sell-through means and when a supplier gets flagged, while the model writes the two paragraphs telling a category manager which three things to look at first. Let the model decide what counts as a problem and you quietly lose the ability to compare this week against last week, because the definition moved while nobody was watching.</p>
+
+    <p class="pullquote">Code gives the same answer to the same numbers until I change it on purpose.</p>
+
+    <p>The elaborate version never got built. The lazy one has been running for weeks and has already caught something I’d have sworn wasn’t there.</p>
+  </article>
+
+</main>
+
+<footer class="footer">
+  <p>© Sofia Traba <span id="year">2026</span></p>
+  <p class="footer-links">
+    <a href="https://www.linkedin.com/in/trabasofia/" rel="me noopener">LinkedIn</a>
+  </p>
+</footer>
+
+<script src="../main.js?v=18"></script>
+</body>
+</html>

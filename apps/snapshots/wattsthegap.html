@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>wattsthegap: what kind of Poga&#269;ar are you?</title>
+<meta name="description" content="At my best I am 29% of Tadej Pogacar. Physics does the maths, an LLM writes one paragraph.">
+<meta property="og:title" content="wattsthegap">
+<meta property="og:description" content="At my best I am 29% of Tadej Pogacar. Physics does the maths, an LLM writes one paragraph.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="card.png">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root { --jaune:#FFD500; --ink:#111; --paper:#FFFDF4; --rule:#11111122; }
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--paper); color:var(--ink);
+       font:17px/1.6 Georgia, 'Times New Roman', serif; }
+.wrap { max-width:880px; margin:0 auto; padding:2.5rem 1.5rem 4rem; }
+header { display:flex; align-items:center; gap:1.5rem; padding-bottom:1.5rem;
+         border-bottom:4px solid var(--ink); flex-wrap:wrap; }
+.logo { width:108px; height:108px; flex:none; }
+h1 { font-size:3rem; letter-spacing:-.02em; line-height:1; }
+h1 .accent { background:var(--jaune); padding:0 .15em; }
+.tagline { font-style:italic; margin-top:.4rem; opacity:.8; }
+h2 { font-size:1.5rem; margin:2.5rem 0 1rem; text-transform:uppercase;
+     letter-spacing:.08em; font-size:1.05rem;
+     border-bottom:2px solid var(--ink); padding-bottom:.35rem; }
+.stats { display:flex; gap:1rem; margin-top:2rem; flex-wrap:wrap; }
+.stat { flex:1 1 150px; border:3px solid var(--ink); padding:1rem;
+        background:#fff; box-shadow:6px 6px 0 var(--jaune); }
+.stat .num { font-size:2.2rem; font-weight:bold; line-height:1.1; }
+.stat .lbl { font-size:.8rem; text-transform:uppercase; letter-spacing:.08em; }
+.tablebox { overflow-x:auto; }
+table { border-collapse:collapse; width:100%; background:#fff;
+        border:3px solid var(--ink); }
+th { background:#111; color:var(--jaune); text-align:left;
+     padding:.5rem .8rem; font-size:.78rem; text-transform:uppercase;
+     letter-spacing:.06em; }
+td { padding:.55rem .8rem; border-bottom:1px solid var(--rule);
+     font-variant-numeric:tabular-nums; }
+tr:last-child td { border-bottom:none; }
+td.gap { font-weight:bold; background:var(--jaune); }
+.pipeline { display:flex; gap:.6rem; align-items:stretch; flex-wrap:wrap; }
+.stage { flex:1 1 160px; border:2px solid var(--ink); background:#fff;
+         padding:.8rem; font-size:.85rem; }
+.stage b { display:block; font-size:.95rem; margin-bottom:.3rem; }
+.stage.llm { background:var(--jaune); }
+.arrow { align-self:center; font-size:1.4rem; }
+.coach { border:3px solid var(--ink); background:#fff; padding:1.3rem 1.5rem;
+         box-shadow:6px 6px 0 var(--jaune); white-space:pre-wrap; }
+.coach.placeholder { font-style:italic; opacity:.7; box-shadow:none; }
+footer { margin-top:3rem; padding-top:1rem; border-top:2px solid var(--ink);
+         font-size:.8rem; opacity:.75; }
+/* Always light: the maillot jaune doesn't do night stages. */
+:root { color-scheme: light; }
+
+.hero { border:4px solid var(--ink); background:var(--jaune); padding:1.8rem;
+        margin-top:2rem; box-shadow:10px 10px 0 var(--ink); }
+.hero .pct { font-size:5rem; line-height:.95; font-weight:bold;
+             letter-spacing:-.03em; }
+.hero .of { font-size:1.1rem; text-transform:uppercase; letter-spacing:.1em; }
+.hero .tier { font-size:1.6rem; margin-top:.6rem; font-style:italic; }
+.hero p { margin-top:.5rem; max-width:56ch; }
+.lean { display:inline-block; border:3px solid var(--ink); background:#fff;
+        padding:.3rem .7rem; margin-top:1rem; font-weight:bold;
+        text-transform:uppercase; letter-spacing:.06em; font-size:.85rem; }
+.caveat { border-left:6px solid var(--ink); background:#fff; padding:1rem 1.2rem;
+          margin-top:1.5rem; font-size:.95rem; }
+.caveat b { display:block; text-transform:uppercase; letter-spacing:.06em;
+            font-size:.8rem; margin-bottom:.3rem; }
+.chartbox { border:3px solid var(--ink); background:#fff; padding:1.2rem;
+            overflow-x:auto; }
+.chart { width:100%; min-width:520px; height:auto; display:block; }
+.caption { font-size:.85rem; opacity:.75; margin-top:.6rem; font-style:italic; }
+.empty { border:3px dashed var(--ink); padding:2rem; text-align:center;
+         font-style:italic; opacity:.8; }
+/* The coach writes Markdown, now rendered as real elements. */
+.coach { white-space:normal; }
+.coach p { margin-bottom:.9rem; }
+.coach ol, .coach ul { margin:0 0 .9rem 1.4rem; }
+.coach li { margin-bottom:.4rem; }
+.coach strong { background:var(--jaune); padding:0 .15em; }
+.coach > :last-child { margin-bottom:0; }
+</style></head><body><div class="wrap">
+<header><svg class="logo" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" role="img"
+     aria-label="wattsthegap logo: a climb profile with two riders and the gap between them">
+  <circle cx="60" cy="60" r="58" fill="#FFD500" stroke="#111" stroke-width="4"/>
+  <!-- stage profile: the climb -->
+  <path d="M14 88 L34 74 L44 78 L62 56 L74 60 L96 30" fill="none"
+        stroke="#111" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- you, lower on the climb -->
+  <circle cx="44" cy="78" r="5.5" fill="#fff" stroke="#111" stroke-width="3"/>
+  <!-- pogacar, already near the top -->
+  <circle cx="96" cy="30" r="5.5" fill="#111"/>
+  <!-- the gap -->
+  <path d="M52 92 L98 44" stroke="#111" stroke-width="2" stroke-dasharray="2 5"/>
+  <text x="60" y="108" text-anchor="middle" font-family="Georgia,serif"
+        font-style="italic" font-size="13" fill="#111">the gap</text>
+</svg><div>
+  <h1>watts<span class="accent">the</span>gap</h1>
+  <p class="tagline">Mind the gap. The watt gap. To Poga&#269;ar.</p>
+</div></header>
+
+<div class="hero">
+  <div class="of">At your best you are</div>
+  <div class="pct">29%</div>
+  <div class="of">of a Poga&#269;ar</div>
+  <div class="tier">Cruising Altitude</div>
+  <p>Ridden at chatting pace, which is allowed.</p>
+  <div class="lean">The All-Rounder</div>
+  <p>22% short, 21% long. No obvious hole to plug.</p>
+</div>
+<div class="caveat">Hardest climb was 2.6 W/kg, which is touring pace. This scores the day you had, not your ceiling.</div>
+
+<div class="stats">
+  <div class="stat"><div class="num">8</div><div class="lbl">rides with climbs</div></div>
+  <div class="stat"><div class="num">19</div><div class="lbl">climbs</div></div>
+  <div class="stat"><div class="num">2:01:33</div><div class="lbl">handed to him</div></div>
+  <div class="stat"><div class="num">21%</div><div class="lbl">typical climb</div></div>
+</div>
+
+<h2>Every climb, last 90 days</h2>
+<div class="chartbox"><svg class="chart" viewBox="0 0 780 658" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Your climbing power as a percentage of Pogacar, one bar per climb, ordered by climb duration"><line x1="298.0" y1="22" x2="298.0" y2="644" stroke="#111" stroke-opacity=".18" stroke-width="1"/><text x="298.0" y="16" text-anchor="middle" font-size="11" fill="#111" fill-opacity=".55" font-family="Georgia,serif">25%</text><line x1="428.0" y1="22" x2="428.0" y2="644" stroke="#111" stroke-opacity=".18" stroke-width="1"/><text x="428.0" y="16" text-anchor="middle" font-size="11" fill="#111" fill-opacity=".55" font-family="Georgia,serif">50%</text><line x1="558.0" y1="22" x2="558.0" y2="644" stroke="#111" stroke-opacity=".18" stroke-width="1"/><text x="558.0" y="16" text-anchor="middle" font-size="11" fill="#111" fill-opacity=".55" font-family="Georgia,serif">75%</text><line x1="688.0" y1="22" x2="688.0" y2="644" stroke="#111" stroke-opacity=".18" stroke-width="1"/><text x="688.0" y="16" text-anchor="middle" font-size="11" fill="#111" fill-opacity=".55" font-family="Georgia,serif">100%</text><text x="0" y="47" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-05-17 &middot; 0.6 km @ 8.4%</text><rect x="168" y="34" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="34" width="152.3" height="18" rx="4" fill="#111"><title>2026-05-17: 29% of Pogacar (4:09 vs 1:23)</title></rect><text x="698" y="47" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">29%</text><text x="0" y="79" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-05-20 &middot; 1.4 km @ 3.0%</text><rect x="168" y="66" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="66" width="137.7" height="18" rx="4" fill="#111"><title>2026-05-20: 26% of Pogacar (4:38 vs 2:03)</title></rect><text x="698" y="79" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">26%</text><text x="0" y="111" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-05-22 &middot; 0.9 km @ 4.9%</text><rect x="168" y="98" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="98" width="111.4" height="18" rx="4" fill="#111"><title>2026-05-22: 21% of Pogacar (4:52 vs 1:28)</title></rect><text x="698" y="111" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">21%</text><text x="0" y="143" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-05-17 &middot; 1.6 km @ 3.1%</text><rect x="168" y="130" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="130" width="146.1" height="18" rx="4" fill="#111"><title>2026-05-17: 28% of Pogacar (5:02 vs 2:18)</title></rect><text x="698" y="143" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">28%</text><text x="0" y="175" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-05-17 &middot; 1.0 km @ 6.5%</text><rect x="168" y="162" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="162" width="119.5" height="18" rx="4" fill="#111"><title>2026-05-17: 23% of Pogacar (6:18 vs 1:48)</title></rect><text x="698" y="175" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">23%</text><text x="0" y="207" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-07-27 &middot; 1.2 km @ 5.3%</text><rect x="168" y="194" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="194" width="106.5" height="18" rx="4" fill="#111"><title>2026-07-27: 20% of Pogacar (7:29 vs 2:05)</title></rect><text x="698" y="207" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">20%</text><text x="0" y="239" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-05-27 &middot; 1.3 km @ 4.9%</text><rect x="168" y="226" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="226" width="107.8" height="18" rx="4" fill="#111"><title>2026-05-27: 21% of Pogacar (7:36 vs 2:13)</title></rect><text x="698" y="239" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">21%</text><text x="0" y="271" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-07-26 &middot; 1.2 km @ 5.3%</text><rect x="168" y="258" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="258" width="103.0" height="18" rx="4" fill="#111"><title>2026-07-26: 20% of Pogacar (7:50 vs 2:07)</title></rect><text x="698" y="271" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">20%</text><text x="0" y="303" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-05-20 &middot; 1.2 km @ 5.0%</text><rect x="168" y="290" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="290" width="92.8" height="18" rx="4" fill="#111"><title>2026-05-20: 18% of Pogacar (8:03 vs 2:02)</title></rect><text x="698" y="303" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">18%</text><text x="0" y="335" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-05-22 &middot; 2.1 km @ 4.0%</text><rect x="168" y="322" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="322" width="129.4" height="18" rx="4" fill="#111"><title>2026-05-22: 25% of Pogacar (8:37 vs 3:14)</title></rect><text x="698" y="335" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">25%</text><text x="0" y="367" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-05-10 &middot; 0.8 km @ 4.3%</text><rect x="168" y="354" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="354" width="50.5" height="18" rx="4" fill="#111"><title>2026-05-10: 10% of Pogacar (8:55 vs 1:20)</title></rect><text x="698" y="367" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">10%</text><text x="0" y="399" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-05-27 &middot; 1.6 km @ 6.1%</text><rect x="168" y="386" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="386" width="109.7" height="18" rx="4" fill="#111"><title>2026-05-27: 21% of Pogacar (10:43 vs 2:54)</title></rect><text x="698" y="399" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">21%</text><text x="0" y="431" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-05-31 &middot; 1.7 km @ 6.0%</text><rect x="168" y="418" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="418" width="116.7" height="18" rx="4" fill="#111"><title>2026-05-31: 22% of Pogacar (10:51 vs 3:08)</title></rect><text x="698" y="431" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">22%</text><text x="0" y="463" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-05-17 &middot; 2.7 km @ 4.1%</text><rect x="168" y="450" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="450" width="145.5" height="18" rx="4" fill="#111"><title>2026-05-17: 28% of Pogacar (10:54 vs 4:23)</title></rect><text x="698" y="463" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">28%</text><text x="0" y="495" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-07-26 &middot; 1.5 km @ 6.4%</text><rect x="168" y="482" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="482" width="99.0" height="18" rx="4" fill="#111"><title>2026-07-26: 19% of Pogacar (11:17 vs 2:43)</title></rect><text x="698" y="495" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">19%</text><text x="0" y="527" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-07-27 &middot; 2.0 km @ 5.2%</text><rect x="168" y="514" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="514" width="117.9" height="18" rx="4" fill="#111"><title>2026-07-27: 23% of Pogacar (11:25 vs 3:30)</title></rect><text x="698" y="527" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">23%</text><text x="0" y="559" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-05-10 &middot; 2.9 km @ 3.8%</text><rect x="168" y="546" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="546" width="127.5" height="18" rx="4" fill="#111"><title>2026-05-10: 25% of Pogacar (12:35 vs 4:37)</title></rect><text x="698" y="559" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">25%</text><text x="0" y="591" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-05-20 &middot; 1.9 km @ 5.1%</text><rect x="168" y="578" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="578" width="90.1" height="18" rx="4" fill="#111"><title>2026-05-20: 17% of Pogacar (13:00 vs 3:09)</title></rect><text x="698" y="591" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">17%</text><text x="0" y="623" font-size="12.5" fill="#111" font-family="Georgia,serif">2026-05-10 &middot; 2.4 km @ 3.2%</text><rect x="168" y="610" width="520" height="18" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="168" y="610" width="60.3" height="18" rx="4" fill="#111"><title>2026-05-10: 12% of Pogacar (17:21 vs 3:35)</title></rect><text x="698" y="623" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">12%</text></svg>
+<div class="caption">Yellow is a full Poga&#269;ar on that climb. Black is you.
+Shortest climb at the top.</div></div>
+
+
+<h2>Ride by ride</h2>
+<div class="tablebox"><table>
+<tr><th>Date</th><th>Ride</th><th>Your day</th><th>You</th>
+<th>His version of that day</th><th>You vs him</th></tr>
+<tr><td>2026-07-27</td><td>Evening Ride</td><td><b>Base miles</b></td><td>2.0 W/kg</td><td>his zone 2 day &middot; ~4.7 W/kg</td><td class='gap'>43%</td></tr><tr><td>2026-07-26</td><td>Afternoon Ride</td><td><b>Base miles</b></td><td>1.9 W/kg</td><td>his zone 2 day &middot; ~4.7 W/kg</td><td class='gap'>41%</td></tr><tr><td>2026-07-15</td><td>Head wind, half dead</td><td><b>Coffee ride</b></td><td>1.7 W/kg</td><td>his recovery spin &middot; ~3.4 W/kg</td><td class='gap'>50%</td></tr><tr><td>2026-07-13</td><td>Morning Ride</td><td><b>Coffee ride</b></td><td>0.8 W/kg</td><td>his recovery spin &middot; ~3.4 W/kg</td><td class='gap'>23%</td></tr><tr><td>2026-07-12</td><td>Family Ride</td><td><b>Coffee ride</b></td><td>0.9 W/kg</td><td>his recovery spin &middot; ~3.4 W/kg</td><td class='gap'>27%</td></tr><tr><td>2026-07-08</td><td>Evening Ride</td><td><b>Base miles</b></td><td>1.8 W/kg</td><td>his zone 2 day &middot; ~4.7 W/kg</td><td class='gap'>39%</td></tr><tr><td>2026-07-04</td><td>Back to Normal</td><td><b>Base miles</b></td><td>1.8 W/kg</td><td>his zone 2 day &middot; ~4.7 W/kg</td><td class='gap'>39%</td></tr><tr><td>2026-05-31</td><td>Evening Ride</td><td><b>Base miles</b></td><td>2.1 W/kg</td><td>his zone 2 day &middot; ~4.7 W/kg</td><td class='gap'>44%</td></tr><tr><td>2026-05-27</td><td>Evening Ride</td><td><b>Base miles</b></td><td>2.1 W/kg</td><td>his zone 2 day &middot; ~4.7 W/kg</td><td class='gap'>44%</td></tr><tr><td>2026-05-25</td><td>🥵🥵🥵</td><td><b>Coffee ride</b></td><td>1.7 W/kg</td><td>his recovery spin &middot; ~3.4 W/kg</td><td class='gap'>50%</td></tr><tr><td>2026-05-23</td><td>It was supposed to be a Re</td><td><b>Base miles</b></td><td>1.9 W/kg</td><td>his zone 2 day &middot; ~4.7 W/kg</td><td class='gap'>41%</td></tr><tr><td>2026-05-22</td><td>☠️☠️☠️☠️☠️</td><td><b>Base miles</b></td><td>1.9 W/kg</td><td>his zone 2 day &middot; ~4.7 W/kg</td><td class='gap'>41%</td></tr><tr><td>2026-05-20</td><td>Afternoon Gravel Ride</td><td><b>Base miles</b></td><td>1.8 W/kg</td><td>his zone 2 day &middot; ~4.7 W/kg</td><td class='gap'>39%</td></tr><tr><td>2026-05-17</td><td>Rund und Koln - Race Day</td><td><b>Race face</b></td><td>2.8 W/kg</td><td>his race effort &middot; ~6.8 W/kg</td><td class='gap'>42%</td></tr><tr><td>2026-05-16</td><td>Activation Ride - Day befo</td><td><b>Coffee ride</b></td><td>1.6 W/kg</td><td>his recovery spin &middot; ~3.4 W/kg</td><td class='gap'>46%</td></tr><tr><td>2026-05-10</td><td>RundUKoln Recon - 1 week o</td><td><b>Spirited</b></td><td>2.3 W/kg</td><td>his tempo day &middot; ~5.8 W/kg</td><td class='gap'>39%</td></tr>
+</table></div>
+<div class="caption">Easy rides get judged against his easy rides.</div>
+
+<h2>How long you can hold it</h2>
+<div class="chartbox"><svg class="chart" viewBox="0 0 780 180" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Your best sustained power as a percentage of Pogacar at 1, 5, 20 and 60 minutes"><line x1="236.5" y1="20" x2="236.5" y2="168" stroke="#111" stroke-opacity=".18" stroke-width="1"/><text x="236.5" y="14" text-anchor="middle" font-size="11" fill="#111" fill-opacity=".55" font-family="Georgia,serif">25%</text><line x1="387.0" y1="20" x2="387.0" y2="168" stroke="#111" stroke-opacity=".18" stroke-width="1"/><text x="387.0" y="14" text-anchor="middle" font-size="11" fill="#111" fill-opacity=".55" font-family="Georgia,serif">50%</text><line x1="537.5" y1="20" x2="537.5" y2="168" stroke="#111" stroke-opacity=".18" stroke-width="1"/><text x="537.5" y="14" text-anchor="middle" font-size="11" fill="#111" fill-opacity=".55" font-family="Georgia,serif">75%</text><line x1="688.0" y1="20" x2="688.0" y2="168" stroke="#111" stroke-opacity=".18" stroke-width="1"/><text x="688.0" y="14" text-anchor="middle" font-size="11" fill="#111" fill-opacity=".55" font-family="Georgia,serif">100%</text><text x="0" y="44" font-size="13" fill="#111" font-family="Georgia,serif">1 min</text><rect x="86" y="30" width="602" height="19" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="86" y="30" width="304.6" height="19" rx="4" fill="#111"><title>1 min: you 309 W (4.41 W/kg) vs Pogacar 8.71 W/kg</title></rect><text x="698" y="44" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">51%</text><text x="0" y="78" font-size="13" fill="#111" font-family="Georgia,serif">5 min</text><rect x="86" y="64" width="602" height="19" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="86" y="64" width="231.3" height="19" rx="4" fill="#111"><title>5 min: you 210 W (3.00 W/kg) vs Pogacar 7.80 W/kg</title></rect><text x="698" y="78" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">38%</text><text x="0" y="112" font-size="13" fill="#111" font-family="Georgia,serif">20 min</text><rect x="86" y="98" width="602" height="19" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="86" y="98" width="252.1" height="19" rx="4" fill="#111"><title>20 min: you 199 W (2.84 W/kg) vs Pogacar 6.78 W/kg</title></rect><text x="698" y="112" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">42%</text><text x="0" y="146" font-size="13" fill="#111" font-family="Georgia,serif">60 min</text><rect x="86" y="132" width="602" height="19" rx="4" fill="#FFD500" stroke="#111" stroke-width="1.5"/><rect x="86" y="132" width="224.9" height="19" rx="4" fill="#111"><title>60 min: you 171 W (2.45 W/kg) vs Pogacar 6.55 W/kg</title></rect><text x="698" y="146" font-size="13" font-weight="bold" fill="#111" font-family="Georgia,serif">37%</text></svg>
+<div class="caption">Your best effort at each duration, from all 16 rides.
+Accurate uphill. On the flat, wind makes it a floor.</div></div>
+<h2>The coach says</h2>
+<div class='coach'><p>Your 5-minute power (3.0 W/kg) sits almost on top of your 20-minute (2.84), so you have no top-end gear: every time the road tilts up your only option is your threshold, which is why you leak time on the steep short climbs. Once or twice a week: 5x4 min at 185-195 W, 4 min easy between. Build that ceiling and everything under it rises.</p></div>
+<footer>Updated 2026-08-07. Poga&#269;ar is simulated from published race
+estimates, never his Strava. No GPS coordinates on this page. Fan project,
+not affiliated with anybody.</footer>
+</div></body></html>

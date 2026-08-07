@@ -1,0 +1,413 @@
+<title>Injurymeter — week of 7 August 2026</title>
+
+<style>
+  /* Palette lifted from Fondo, which took it off linear.app. Four text tints,
+     alpha borders, and the accent appears roughly once per screen. */
+  :root {
+    --bg: #08090a;
+    --raise: #0f1011;
+    --raise-2: #17181a;
+
+    --t1: #f7f8f8;
+    --t2: #d0d6e0;
+    --t3: #8a8f98;
+    --t4: #62666d;
+
+    --line: rgb(255 255 255 / 0.07);
+    --line-2: rgb(255 255 255 / 0.12);
+
+    --accent: #8b93e8;
+    --accent-fill: #5e6ad2;
+    --accent-soft: rgb(94 106 210 / 0.16);
+
+    --ok: #68cc8b;
+    --warn: #f2777a;
+    --caution: #d9a33e;
+    --idle: #8a8f98;
+
+    --zone-under: var(--idle);
+    --zone-sweet: var(--ok);
+    --zone-caution: var(--caution);
+    --zone-risk: var(--warn);
+
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, sans-serif;
+    --mono: ui-monospace, "SF Mono", "Geist Mono", Menlo, monospace;
+
+    --zone: var(--idle);
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #ffffff; --raise: #fafafa; --raise-2: #f1f1f2;
+      --t1: #08090a; --t2: #3c4149; --t3: #6f6e77; --t4: #94939c;
+      --line: rgb(8 9 10 / 0.09); --line-2: rgb(8 9 10 / 0.14);
+      --accent: #5e6ad2; --accent-fill: #5e6ad2; --accent-soft: rgb(94 106 210 / 0.09);
+      --ok: #3f8f5b; --warn: #c4372f; --caution: #a8760c; --idle: #6f6e77;
+    }
+  }
+  :root[data-theme="light"] {
+    --bg: #ffffff; --raise: #fafafa; --raise-2: #f1f1f2;
+    --t1: #08090a; --t2: #3c4149; --t3: #6f6e77; --t4: #94939c;
+    --line: rgb(8 9 10 / 0.09); --line-2: rgb(8 9 10 / 0.14);
+    --accent: #5e6ad2; --accent-fill: #5e6ad2; --accent-soft: rgb(94 106 210 / 0.09);
+    --ok: #3f8f5b; --warn: #c4372f; --caution: #a8760c; --idle: #6f6e77;
+  }
+  :root[data-theme="dark"] {
+    --bg: #08090a; --raise: #0f1011; --raise-2: #17181a;
+    --t1: #f7f8f8; --t2: #d0d6e0; --t3: #8a8f98; --t4: #62666d;
+    --line: rgb(255 255 255 / 0.07); --line-2: rgb(255 255 255 / 0.12);
+    --accent: #8b93e8; --accent-fill: #5e6ad2; --accent-soft: rgb(94 106 210 / 0.16);
+    --ok: #68cc8b; --warn: #f2777a; --caution: #d9a33e; --idle: #8a8f98;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--t1);
+    font-family: var(--sans);
+    font-size: 14px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 24px 72px;
+    display: flex;
+    flex-direction: column;
+    gap: 34px;
+  }
+
+  /* Hierarchy comes from weight and tint, not scale. */
+  .t-page { font-size: 22px; line-height: 1.2; font-weight: 620; letter-spacing: -0.021em; }
+  .t-figure {
+    font-size: 44px; line-height: 1; font-weight: 620;
+    letter-spacing: -0.028em; font-variant-numeric: tabular-nums;
+  }
+  .t-label {
+    font-size: 11px; line-height: 1.3; font-weight: 620;
+    text-transform: uppercase; letter-spacing: 0.09em; color: var(--t4);
+  }
+  .t-detail { font-size: 13px; line-height: 1.45; color: var(--t3); }
+  p { color: var(--t2); max-width: 62ch; }
+  p + p { margin-top: 10px; }
+  strong { color: var(--t1); font-weight: 500; }
+
+  header { display: flex; flex-direction: column; gap: 5px; }
+  header .meta { font-size: 13px; color: var(--t3); }
+
+  section { display: flex; flex-direction: column; gap: 12px; }
+
+  /* ── the reading ─────────────────────────────────────────────── */
+  .reading {
+    background: var(--raise);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 22px 24px;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+    align-items: center;
+  }
+  .reading .fig { color: var(--zone); }
+  .reading .side { display: flex; flex-direction: column; gap: 9px; }
+  .chip {
+    align-self: flex-start;
+    font-size: 11px; font-weight: 620;
+    letter-spacing: 0.07em; text-transform: uppercase;
+    color: var(--zone);
+    background: color-mix(in srgb, var(--zone) 12%, transparent);
+    border-radius: 4px;
+    padding: 3px 8px;
+  }
+  .stats {
+    display: flex; flex-wrap: wrap; gap: 3px 22px;
+    font-family: var(--mono); font-size: 12px;
+    color: var(--t4); font-variant-numeric: tabular-nums;
+  }
+  .stats b { color: var(--t2); font-weight: 500; }
+
+  /* ── chart ───────────────────────────────────────────────────── */
+  .chartbox {
+    background: var(--raise);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 16px 14px 8px;
+    overflow-x: auto;
+  }
+  svg { display: block; width: 100%; height: auto; min-width: 440px; }
+  .trace { fill: none; stroke: var(--accent); stroke-width: 1.75; stroke-linejoin: round; }
+  .axis { font-family: var(--mono); font-size: 9.5px; fill: var(--t4); }
+  .gridline { stroke: var(--line); stroke-width: 1; }
+  .thresh { stroke: var(--warn); stroke-width: 1; stroke-dasharray: 3 3; opacity: .55; }
+  .bandline { stroke: var(--line); stroke-width: 1; }
+
+  /* ── table ───────────────────────────────────────────────────── */
+  .tablebox {
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--raise);
+    overflow: hidden;
+  }
+  .tablescroll { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; min-width: 420px; }
+  th, td {
+    text-align: right;
+    padding: 9px 16px;
+    border-bottom: 1px solid var(--line);
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+    color: var(--t2);
+  }
+  th {
+    font-size: 11px; font-weight: 620; color: var(--t4);
+    text-transform: uppercase; letter-spacing: 0.07em;
+  }
+  td:first-child, th:first-child { text-align: left; font-family: var(--mono); }
+  td.mono { font-family: var(--mono); }
+  tbody tr:last-child td { border-bottom: none; color: var(--t1); font-weight: 500; }
+  .bar {
+    display: inline-block; height: 6px; border-radius: 2px;
+    background: var(--accent-fill); opacity: .5; vertical-align: middle;
+    margin-left: 8px;
+  }
+  .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 8px; vertical-align: middle; }
+  .neg { color: var(--t4); }
+
+  /* ── verdict ─────────────────────────────────────────────────── */
+  .verdict {
+    background: var(--raise);
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--zone);
+    border-radius: 8px;
+    padding: 18px 22px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .verdict .say { font-size: 16px; font-weight: 500; color: var(--t1); line-height: 1.45; }
+  .verdict .caveat { font-size: 13px; color: var(--t3); }
+
+  .flagline {
+    display: flex; gap: 10px; align-items: baseline;
+    font-size: 13px; color: var(--t3);
+  }
+  .flagline .mark { color: var(--caution); font-family: var(--mono); flex: none; }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 18px;
+    font-size: 12px;
+    color: var(--t4);
+    display: flex; flex-direction: column; gap: 7px;
+    max-width: 62ch;
+  }
+  footer code {
+    font-family: var(--mono); font-size: 11.5px;
+    background: var(--raise-2); padding: 1px 5px; border-radius: 3px;
+  }
+
+  @media (max-width: 560px) {
+    .wrap { padding: 32px 18px 56px; gap: 28px; }
+    .reading { grid-template-columns: 1fr; gap: 16px; }
+    .t-figure { font-size: 38px; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <div class="t-label">Injurymeter</div>
+    <div class="t-page">Two training days, and the average is catching up</div>
+    <div class="meta">Week ending Friday 7 August 2026</div>
+  </header>
+
+  <div class="reading" id="reading">
+    <div class="t-figure fig" id="bignum">0.73</div>
+    <div class="side">
+      <div class="chip" id="chip">Undertraining</div>
+      <div class="stats">
+        <span>acute <b>19.0</b></span>
+        <span>chronic <b>25.9</b></span>
+        <span>monotony <b>0.49</b></span>
+        <span>58 activities / 120d</span>
+      </div>
+    </div>
+  </div>
+
+  <section>
+    <div class="t-label">Acute:chronic ratio, 90 days</div>
+    <div class="chartbox"><svg id="chart" viewBox="0 0 720 220" role="img"
+      aria-label="Acute to chronic workload ratio over 90 days, peaking at 2.52 in mid-July and settling at 0.73."></svg></div>
+    <div class="t-detail">
+      Bands are the conventional zones. The dashed line is 1.5, where the
+      literature starts calling it risky.
+    </div>
+  </section>
+
+  <section>
+    <div class="t-label">This week</div>
+    <p>
+      Two sessions since Monday, <strong>19</strong> and <strong>106</strong>, with five
+      empty days around them. The week totals <strong>125</strong> against
+      <strong>229</strong> the week before.
+    </p>
+    <p>
+      Acute load has fallen to <strong>19.0</strong> while the 28-day baseline sits at
+      <strong>25.9</strong>, which is what pulls the ratio under 0.8 and into the
+      undertraining band.
+    </p>
+  </section>
+
+  <section>
+    <div class="t-label">Twelve weeks</div>
+    <div class="tablebox"><div class="tablescroll">
+      <table>
+        <thead>
+          <tr><th>Week ending</th><th>Load</th><th>Days</th><th>ACWR</th><th>vs prev</th></tr>
+        </thead>
+        <tbody id="weeks"></tbody>
+      </table>
+    </div></div>
+  </section>
+
+  <section>
+    <div class="t-label">Worth knowing</div>
+    <div class="flagline">
+      <span class="mark">!</span>
+      <span>
+        11 of 58 activities had no heart-rate data, so they were scored by duration
+        instead. Those account for <strong>37%</strong> of total load, on a
+        noticeably larger scale, which inflates any peak they sit under.
+      </span>
+    </div>
+    <div class="flagline">
+      <span class="mark">!</span>
+      <span>
+        The July peak of <strong>2.52</strong> is the only crossing above 1.5 in
+        ninety days, and roughly 70% of the load behind it was duration-scored.
+      </span>
+    </div>
+  </section>
+
+  <section>
+    <div class="t-label">Verdict</div>
+    <div class="verdict" id="verdict">
+      <div class="say" id="rec">You've got headroom. If you feel like doing more, your body isn't the excuse.</div>
+      <div class="caveat">
+        Chosen by a fixed lookup on two numbers, never by a model. It cannot tell a
+        rest week from stopping because something hurt. If it was the second, ignore it.
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>ACWR zones and the monotony threshold (Foster, 1998) are heuristics from sports-science literature, not medical advice.</p>
+    <p>This says whether the load is sustainable. It says nothing about getting faster.</p>
+    <p>Generated by <code>injurymeter.py --evidence</code>. Every figure computed by the script.</p>
+  </footer>
+
+</div>
+
+<script>window.__IM__={"generated":"2026-08-07","today":{"acwr":0.73,"acute":19.0,"chronic":25.9,"monotony":0.49,"zone":"undertraining","rec":"You've got headroom. If you feel like doing more, your body isn't the excuse."},"episodes":[{"start":"2026-07-11","end":"2026-07-16","peak":2.52}],"weeks":[{"end":"2026-05-22","load":398,"active":5,"acwr":1.15,"delta":null},{"end":"2026-05-29","load":167,"active":3,"acwr":0.53,"delta":-231},{"end":"2026-06-05","load":58,"active":1,"acwr":0.24,"delta":-109},{"end":"2026-06-12","load":203,"active":2,"acwr":0.73,"delta":145},{"end":"2026-06-19","load":100,"active":3,"acwr":0.46,"delta":-103},{"end":"2026-06-26","load":40,"active":1,"acwr":0.56,"delta":-60},{"end":"2026-07-03","load":24,"active":1,"acwr":0.24,"delta":-16},{"end":"2026-07-10","load":99,"active":3,"acwr":0.8,"delta":75},{"end":"2026-07-17","load":732,"active":5,"acwr":1.45,"delta":633},{"end":"2026-07-24","load":92,"active":2,"acwr":0.69,"delta":-640},{"end":"2026-07-31","load":229,"active":3,"acwr":0.51,"delta":137},{"end":"2026-08-07","load":125,"active":2,"acwr":0.73,"delta":-104}],"series":[{"d":"2026-05-10","a":1.149,"l":169.0},{"d":"2026-05-11","a":0.926,"l":0.0},{"d":"2026-05-12","a":0.761,"l":4.0},{"d":"2026-05-13","a":0.613,"l":0.0},{"d":"2026-05-14","a":0.875,"l":93.0},{"d":"2026-05-15","a":0.717,"l":3.0},{"d":"2026-05-16","a":0.667,"l":20.0},{"d":"2026-05-17","a":1.082,"l":136.8},{"d":"2026-05-18","a":0.872,"l":0.0},{"d":"2026-05-19","a":0.715,"l":3.0},{"d":"2026-05-20","a":0.814,"l":53.0},{"d":"2026-05-21","a":0.655,"l":0.0},{"d":"2026-05-22","a":1.193,"l":161.5},{"d":"2026-05-23","a":1.119,"l":44.1},{"d":"2026-05-24","a":0.901,"l":0.0},{"d":"2026-05-25","a":0.826,"l":23.0},{"d":"2026-05-26","a":0.98,"l":74.0},{"d":"2026-05-27","a":1.066,"l":70.0},{"d":"2026-05-28","a":0.859,"l":0.0},{"d":"2026-05-29","a":0.692,"l":0.0},{"d":"2026-05-30","a":0.557,"l":0.0},{"d":"2026-05-31","a":0.757,"l":58.0},{"d":"2026-06-01","a":0.61,"l":0.0},{"d":"2026-06-02","a":0.491,"l":0.0},{"d":"2026-06-03","a":0.396,"l":0.0},{"d":"2026-06-04","a":0.319,"l":0.0},{"d":"2026-06-05","a":0.257,"l":0.0},{"d":"2026-06-06","a":0.207,"l":0.0},{"d":"2026-06-07","a":1.136,"l":141.0},{"d":"2026-06-08","a":0.915,"l":0.0},{"d":"2026-06-09","a":1.096,"l":62.0},{"d":"2026-06-10","a":0.883,"l":0.0},{"d":"2026-06-11","a":0.711,"l":0.0},{"d":"2026-06-12","a":0.573,"l":0.0},{"d":"2026-06-13","a":0.899,"l":60.0},{"d":"2026-06-14","a":0.766,"l":6.0},{"d":"2026-06-15","a":0.617,"l":0.0},{"d":"2026-06-16","a":0.497,"l":0.0},{"d":"2026-06-17","a":0.701,"l":34.0},{"d":"2026-06-18","a":0.565,"l":0.0},{"d":"2026-06-19","a":0.455,"l":0.0},{"d":"2026-06-20","a":0.366,"l":0.0},{"d":"2026-06-21","a":0.295,"l":0.0},{"d":"2026-06-22","a":0.238,"l":0.0},{"d":"2026-06-23","a":0.192,"l":0.0},{"d":"2026-06-24","a":0.154,"l":0.0},{"d":"2026-06-25","a":0.693,"l":40.0},{"d":"2026-06-26","a":0.558,"l":0.0},{"d":"2026-06-27","a":0.45,"l":0.0},{"d":"2026-06-28","a":0.714,"l":24.0},{"d":"2026-06-29","a":0.575,"l":0.0},{"d":"2026-06-30","a":0.463,"l":0.0},{"d":"2026-07-01","a":0.373,"l":0.0},{"d":"2026-07-02","a":0.301,"l":0.0},{"d":"2026-07-03","a":0.242,"l":0.0},{"d":"2026-07-04","a":0.574,"l":18.0},{"d":"2026-07-05","a":0.462,"l":0.0},{"d":"2026-07-06","a":1.247,"l":52.0},{"d":"2026-07-07","a":1.005,"l":0.0},{"d":"2026-07-08","a":1.225,"l":29.0},{"d":"2026-07-09","a":0.987,"l":0.0},{"d":"2026-07-10","a":0.795,"l":0.0},{"d":"2026-07-11","a":1.859,"l":109.5},{"d":"2026-07-12","a":2.487,"l":217.2},{"d":"2026-07-13","a":2.517,"l":201.5},{"d":"2026-07-14","a":2.028,"l":0.0},{"d":"2026-07-15","a":2.112,"l":174.2},{"d":"2026-07-16","a":1.748,"l":17.0},{"d":"2026-07-17","a":1.452,"l":13.0},{"d":"2026-07-18","a":1.17,"l":0.0},{"d":"2026-07-19","a":0.993,"l":11.0},{"d":"2026-07-20","a":0.8,"l":0.0},{"d":"2026-07-21","a":1.057,"l":81.0},{"d":"2026-07-22","a":0.852,"l":0.0},{"d":"2026-07-23","a":0.686,"l":0.0},{"d":"2026-07-24","a":0.974,"l":75.0},{"d":"2026-07-25","a":0.785,"l":0.0},{"d":"2026-07-26","a":1.045,"l":76.0},{"d":"2026-07-27","a":1.21,"l":78.0},{"d":"2026-07-28","a":0.975,"l":0.0},{"d":"2026-07-29","a":0.785,"l":0.0},{"d":"2026-07-30","a":0.632,"l":0.0},{"d":"2026-07-31","a":0.509,"l":0.0},{"d":"2026-08-01","a":0.41,"l":0.0},{"d":"2026-08-02","a":0.331,"l":0.0},{"d":"2026-08-03","a":0.266,"l":0.0},{"d":"2026-08-04","a":0.399,"l":19.0},{"d":"2026-08-05","a":1.128,"l":106.0},{"d":"2026-08-06","a":0.909,"l":0.0},{"d":"2026-08-07","a":0.733,"l":0.0}]};</script>
+<script>
+(function () {
+  var D = window.__IM__;
+  var ZONE = {
+    undertraining: ["Undertraining", "--zone-under"],
+    sweet_spot:    ["Sweet spot",    "--zone-sweet"],
+    caution:       ["Caution",       "--zone-caution"],
+    high_risk:     ["High risk",     "--zone-risk"]
+  };
+  function zoneOf(v) {
+    if (v == null) return "undertraining";
+    if (v < 0.8) return "undertraining";
+    if (v <= 1.3) return "sweet_spot";
+    if (v <= 1.5) return "caution";
+    return "high_risk";
+  }
+
+  var z = ZONE[D.today.zone];
+  document.getElementById("reading").style.setProperty("--zone", "var(" + z[1] + ")");
+  document.getElementById("verdict").style.setProperty("--zone", "var(" + z[1] + ")");
+  document.getElementById("bignum").textContent = D.today.acwr.toFixed(2);
+  document.getElementById("chip").textContent = z[0];
+  document.getElementById("rec").textContent = D.today.rec;
+
+  // ---- weekly table ----
+  var maxLoad = Math.max.apply(null, D.weeks.map(function (w) { return w.load; }));
+  document.getElementById("weeks").innerHTML = D.weeks.map(function (w) {
+    var zc = "var(" + ZONE[zoneOf(w.acwr)][1] + ")";
+    var d = w.delta == null ? '<span class="neg">&mdash;</span>'
+          : (w.delta > 0 ? "+" + w.delta : '<span class="neg">' + w.delta + "</span>");
+    var px = Math.max(2, Math.round((w.load / maxLoad) * 46));
+    return "<tr><td>" + w.end + "</td>"
+      + '<td class="mono">' + w.load + '<span class="bar" style="width:' + px + 'px"></span></td>'
+      + '<td class="mono">' + w.active + "/7</td>"
+      + '<td class="mono"><span class="dot" style="background:' + zc + '"></span>'
+      + (w.acwr == null ? "&mdash;" : w.acwr.toFixed(2)) + "</td>"
+      + '<td class="mono">' + d + "</td></tr>";
+  }).join("");
+
+  // ---- chart ----
+  var W = 720, H = 220, L = 30, R = 10, T = 12, B = 24;
+  var pw = W - L - R, ph = H - T - B;
+  var pts = D.series.filter(function (p) { return p.a != null; });
+  var yMax = Math.max(2.8, Math.ceil(Math.max.apply(null, pts.map(function (p) { return p.a; })) * 10) / 10 + 0.2);
+  var x = function (i) { return L + (i / (pts.length - 1)) * pw; };
+  var y = function (v) { return T + ph - (v / yMax) * ph; };
+
+  var svg = [];
+
+  // Zone boundaries as hairlines rather than filled bands: on a near-black
+  // ground four washes turn the plot into mud.
+  [0.8, 1.3].forEach(function (v) {
+    svg.push('<line class="bandline" x1="' + L + '" y1="' + y(v).toFixed(1)
+      + '" x2="' + (W - R) + '" y2="' + y(v).toFixed(1) + '"></line>');
+  });
+
+  [0, 1.0, 2.0].forEach(function (v) {
+    if (v > yMax) return;
+    svg.push('<line class="gridline" x1="' + L + '" y1="' + y(v).toFixed(1)
+      + '" x2="' + (W - R) + '" y2="' + y(v).toFixed(1) + '"></line>');
+    svg.push('<text class="axis" x="' + (L - 6) + '" y="' + (y(v) + 3).toFixed(1)
+      + '" text-anchor="end">' + v.toFixed(1) + "</text>");
+  });
+  svg.push('<line class="thresh" x1="' + L + '" y1="' + y(1.5).toFixed(1)
+    + '" x2="' + (W - R) + '" y2="' + y(1.5).toFixed(1) + '"></line>');
+  svg.push('<text class="axis" x="' + (W - R) + '" y="' + (y(1.5) - 5).toFixed(1)
+    + '" text-anchor="end" fill="var(--warn)">1.5 risk</text>');
+
+  var dPath = pts.map(function (p, i) {
+    return (i ? "L" : "M") + x(i).toFixed(1) + " " + y(p.a).toFixed(1);
+  }).join(" ");
+  svg.push('<path class="trace" d="' + dPath + '"></path>');
+
+  var last = pts.length - 1;
+  svg.push('<circle cx="' + x(last).toFixed(1) + '" cy="' + y(pts[last].a).toFixed(1)
+    + '" r="3.5" fill="var(' + z[1] + ')"></circle>');
+
+  (D.episodes || []).forEach(function (ep) {
+    var i0 = -1, i1 = -1;
+    pts.forEach(function (p, i) {
+      if (p.d === ep.start) i0 = i;
+      if (p.d === ep.end) i1 = i;
+    });
+    if (i0 < 0 || i1 < 0) return;
+    svg.push('<text class="axis" x="' + ((x(i0) + x(i1)) / 2).toFixed(1) + '" y="'
+      + (y(ep.peak) - 7).toFixed(1) + '" text-anchor="middle" fill="var(--warn)">'
+      + ep.peak.toFixed(2) + "</text>");
+  });
+
+  var ticks = [0, last];
+  var epi = pts.findIndex(function (p) { return D.episodes.length && p.d === D.episodes[0].start; });
+  if (epi > 0) ticks.splice(1, 0, epi);
+  ticks.forEach(function (i) {
+    var lbl = pts[i].d.slice(5).replace("-", "/");
+    var anchor = i === 0 ? "start" : (i === last ? "end" : "middle");
+    svg.push('<text class="axis" x="' + x(i).toFixed(1) + '" y="' + (H - 7)
+      + '" text-anchor="' + anchor + '">' + lbl + "</text>");
+  });
+
+  document.getElementById("chart").innerHTML = svg.join("");
+})();
+</script>

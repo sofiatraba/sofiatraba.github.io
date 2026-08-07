@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>29% of Tadej Pogačar · Sofia Traba</title>
+<meta name="description" content="I built an app that reads my Strava and tells me what percentage of a Tour de France winner I am. The physics is code; the AI gets sixty words at the very end.">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="../favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="29% of Tadej Pogačar">
+<meta property="og:description" content="Work out everything you can with ordinary code, tested. Then hand the model the one piece that genuinely needs judgement.">
+<meta property="og:image" content="../images/og.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,500;1,6..72,300&family=Instrument+Sans:wght@400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../styles.css?v=18">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="topbar">
+  <a class="brand" href="../index.html">Sofia Traba</a>
+  <nav class="nav" aria-label="Sections">
+    <a href="../index.html">Home</a>
+    <a href="../career.html">Career</a>
+    <a href="../portfolio.html" aria-current="page">The Lab</a>
+  </nav>
+</header>
+
+<main id="main" class="wrap">
+
+  <a class="crumb" href="../portfolio.html">← The Lab</a>
+
+  <div class="section-head">
+    <div>
+      <p class="eyebrow accent">01 · Own build</p>
+      <h1 class="display">29% of Tadej Pogačar</h1>
+    </div>
+
+    <div class="card case-meta">
+      <p class="card-head">Project</p>
+      <dl class="facts">
+        <dt>Role</dt><dd>Product & physics</dd>
+        <dt>Stack</dt><dd>Python, stdlib only · one Claude call</dd>
+        <dt>Status</dt><dd>Shipped</dd>
+        <dt>The app</dt><dd><a class="accent" href="../apps/wattsthegap.html"> See what it looks like→</a></dd>
+        <dt>Repo</dt><dd><a class="accent" href="https://github.com/sofiatraba/wattsthegap" rel="noopener">github.com/sofiatraba/wattsthegap</a></dd>
+      </dl>
+    </div>
+  </div>
+
+  <article class="prose">
+    <p>Everything is figureoutable has been my mantra since I decided that I could take any career turn I wanted. Fortunately, or unfortunately depending on how you look at it, I tend to think the same way about sport. This year I was watching the Tour de France and I thought, how hard could it be?</p>
+
+    <p>Since for obvious reasons I was never going to find out, I built an app that reads my Strava and tells me what percentage of a Tour de France winner I am.</p>
+
+    <div class="metrics" aria-label="The answer">
+      <div class="metric"><b>29%</b><span>On a climb</span></div>
+      <div class="metric"><b>51%</b><span>One glorious minute</span></div>
+      <div class="metric"><b>37%</b><span>Over an hour</span></div>
+    </div>
+
+    <p><span class="hl">So, TL;DR, I am not a Tour de France winner. Who would have guessed?</span></p>
+
+    <p>It started as a joke, but I am pleased enough with the engineering underneath that it seems worth writing down.</p>
+
+    <h2>My first instinct was to just ask Claude</h2>
+
+    <p>That is where most of us start now, and it is a reasonable place to start. Hand over the ride files, ask how I compare to Pogačar, read the answer, sorted.</p>
+
+    <p>Language models are genuinely excellent at anything shaped like language. They read messy text, summarise, explain, translate between how an expert talks and how a normal person talks. If my problem had been “read these 40 cycling blogs and tell me what they agree on”, I would have handed the whole thing over and gone to bed.</p>
+
+    <p>My problem was arithmetic. And the difficulty with asking a model to do arithmetic is not that it gets things wrong, because so do I. The difficulty is that when it does, nothing looks different. In a normal conversation you can usually catch a wrong answer, because you know something about the topic and the claim sits next to things you can check. Here, the numbers <em>were</em> the product. There was nothing else on the page to check them against. <span class="hl">An invented wattage and a real one can look identical.</span></p>
+
+    <p>Two smaller reasons pointed the same way. A single ride is about a hundred thousand GPS points, and reading all of that costs hundreds of times more than reading the couple of hundred numbers that actually matter. And Strava’s terms, since 2024, do not allow their data to be fed to AI models at all.</p>
+
+    <p>Models are improving at this kind of work, quickly. But “improving” is not the standard you want when the number is the entire product.</p>
+
+    <h2>So, I split the job in two</h2>
+
+    <p>The first half is physics, and there is no AI anywhere near it.</p>
+
+    <p>Watts can be calculated from speed and gradient, because gravity is settled science and does not require anybody’s opinion. If I know how heavy I am, how steep the road is and how fast I went up it, the power falls out of an equation that has not changed in centuries. The same equation works on Pogačar. He has never published his power files, but every climb he races has a public gradient, the broadcast runs a clock, and his weight is published, so sports scientists have reverse engineered his numbers. I took their published estimates and turned him into a curve.</p>
+
+    <p>Then I put him on my hill. The hill does not care who is riding it, so the same equation that tells me my watts tells me his time. The gap between those two times is the product.</p>
+
+    <h2>The second half is one paragraph, and only AI can write it</h2>
+
+    <p>When the physics finishes I am left with about two hundred numbers. My best effort over one minute, five, twenty and sixty. Nineteen climbs, each with a time and a gap. Every ride, sorted by how hard I rode it.</p>
+
+    <p>Two hundred numbers is not an answer. It is homework.</p>
+
+    <p>What I actually want to know is which one matters this week, and no single number can tell me that. Take my five minute power, 210 watts. On its own that is just a fact. It only becomes interesting sitting next to my twenty minute power, 199 watts, because eleven watts between them is bad news. It means I have no higher gear. Whatever I can hold for twenty minutes is roughly all I have, so the moment a road ramps up I am already at my limit.</p>
+
+    <p>Spotting that, out of two hundred numbers, is judgement. Explaining it so that I actually go and train is writing. Both of those are things language models are properly good at, which is why this is the one job I gave it.</p>
+
+    <p>So the model gets the numbers, never a GPS coordinate, and sends back sixty words. Here it is, jargon and all:</p>
+
+    <blockquote>
+      <p>Your 5-minute ceiling (210 W) sits only 11 W above your 20-minute (199 W), so there is no top end to attack with, and every pitch over 6% balloons to three times Pogacar’s time. Once a week: 5x4 min at 185 to 195 W with 4 min easy between.</p>
+    </blockquote>
+
+    <p>Translated: I have no top gear. I can hold a decent pace forever (consequences of only training endurance) but I have nothing extra to give when the road kicks up, so every climb turns into a slow grind. It then hands me a specific session to fix it, in watts I can dial into a bike computer.</p>
+
+    <p class="pullquote">Give it the answers, not the raw data.</p>
+
+    <p>I tell everyone who wants to listen to work out everything you can work out with ordinary code, tested, so you can prove it. Then hand the model the one small piece of the job that genuinely needs judgement and words.</p>
+
+    <p>Which is lovely for a bike, but you might reasonably ask who cares. So let me swap the bike for something with a budget attached.</p>
+
+    <p>Say you run e-commerce and returns are eating your margin. The tempting version is to point a model at the returns database and ask what is going wrong. The version that works is the one above with different nouns. Ordinary database queries calculate return rates by product, what each one costs you, how that compares to last quarter. That part is arithmetic, so it should be code, and it should be tested. Then the model reads that one page of results and writes the note your category manager actually acts on, in plain English, carrying the context a dashboard never can: that launch weeks are always noisy, that gift items spike every January and mean nothing.</p>
+
+    <p>You get three things from building it that way round.</p>
+
+    <p>Your numbers hold up in a meeting, because they came out of queries somebody can open and check, rather than out of a model nobody can audit. Your costs stay near zero, because the expensive part is reading raw data and you are not asking it to do that. And your customer records never go near a model, which turns a compliance conversation into a legal one.</p>
+
+    <p>So the question I start with now is not what the model can do. <span class="hl">It is which single part of the job only it can do.</span> Here, that was sixty words at the very end.</p>
+  </article>
+
+</main>
+
+<footer class="footer">
+  <p>© Sofia Traba <span id="year">2026</span></p>
+  <p class="footer-links">
+    <a href="https://www.linkedin.com/in/trabasofia/" rel="me noopener">LinkedIn</a>
+  </p>
+</footer>
+
+<script src="../main.js?v=18"></script>
+</body>
+</html>
