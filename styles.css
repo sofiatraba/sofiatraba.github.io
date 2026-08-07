@@ -473,6 +473,9 @@ img { max-width: 100%; display: block; }
   .section-head,
   .post-featured { grid-template-columns: 1fr; }
 
+  /* Stacked layout: keep the portrait people-sized, not screen-sized. */
+  .portrait-col .slot.is-filled { max-width: 440px; }
+
   .section-head { align-items: start; }
   .more-grid { grid-template-columns: 1fr 1fr; }
   .project-grid { grid-template-columns: 1fr 1fr; }
