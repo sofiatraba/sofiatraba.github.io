@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prompt, skill or agent? · Judgement in the Loop</title>
+<meta name="description" content="Three ways of working with AI, how to choose between them, and what you hand over each time you move up one.">
+<meta name="theme-color" content="#577040">
+<link rel="icon" href="../illustrations/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../guide.css?v=1">
+</head>
+<body>
+<!-- drafted-by: claude. Sofia rewrites at least the opening, her own example and the ending before this goes public. -->
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <a class="title" href="../index.html">Judgement in the Loop</a>
+  <a class="back" href="../index.html">All chapters</a>
+</header>
+
+<main id="main" class="wrap">
+  <article class="read">
+
+    <header class="chapter-head">
+      <p class="num">chapter 07</p>
+      <h1>Prompt, skill or agent?</h1>
+    </header>
+
+    <figure class="plate">
+      <img src="../illustrations/ladder.svg" alt="Three vessels in a row: a cup with one stem, a checked vase with a small arrangement, and a large pot with a bushy plant" width="1200" height="800">
+      <figcaption>a single stem, an arrangement you can make again, and a plant that’s left to grow on its own</figcaption>
+    </figure>
+
+    <p class="lede">Sooner or later someone on your team will say “we should build an agent for that”. Sometimes they’ll be right. Quite often, though, a well-written prompt or a small reusable skill would do the same job for less money and with far fewer surprises, and this chapter is about telling those cases apart.</p>
+
+    <span class="part-tag">first, what it is</span>
+    <h2>Three ways of asking for help</h2>
+    <p>A <strong>prompt</strong> is an instruction you write for one occasion. You give the model a task and a bit of context, it answers, and the next time you need the same thing you start again from an empty box.</p>
+    <p>A <strong>skill</strong> is a prompt that has been written down properly and saved so it can be used again. It usually holds instructions and examples, sometimes a template or a small script, and the AI picks it up whenever a task calls for it. In Claude a skill is simply a folder with a short instruction file inside, which tells you how ordinary the idea really is.</p>
+    <p>An <strong>agent</strong> is given a goal instead of a task. It has access to tools, like your files, your calendar or your ticketing system, and it works in a loop: it chooses a step, takes it, looks at what happened, and chooses the next one, until it decides the job is done.</p>
+    <p>A helpful way to see the difference is to ask what you’re handing over each time you move up. With a prompt you hand over the writing, while everything around it stays with you. A skill takes the remembering off your hands too, so the way your team does something lives in a file instead of in someone’s head. An agent also takes over the choice of what to do next, and that is where most of the risk lives.</p>
+
+    <span class="part-tag">then, how to decide</span>
+    <h2>Start low, and climb when it hurts</h2>
+    <p>A good default is to start with the simplest option and move up only once staying where you are has become genuinely annoying. Each of the three has its own signs.</p>
+    <ul class="signals">
+      <li style="--c:var(--blue)"><p><strong>Stay with a prompt</strong> when the task comes up once or only now and then, and you’re happy to read the answer yourself before using it.</p></li>
+      <li style="--c:var(--sage)"><p><strong>Move to a skill</strong> when you catch yourself pasting the same instructions for the third time, or when teammates need the same quality of result without having to learn all your little tricks.</p></li>
+      <li style="--c:var(--terracotta)"><p><strong>Consider an agent</strong> when the steps change depending on what turns up along the way, and you keep finding yourself copying things between tools by hand to keep the work moving.</p></li>
+    </ul>
+    <p>Before climbing all the way to an agent, two questions are worth a few quiet minutes. The first is how much a wrong step would cost, because an agent that can post in Slack or edit a ticket can do real things before anyone has looked. The second is who would notice. If the honest answer is “nobody, until a customer complains”, the agent probably needs a checkpoint where a person signs off, or the task should stay one level lower for now.</p>
+
+    <h2>The same job, three ways</h2>
+    <p>Release notes are a good example. The first time, you paste the list of closed tickets into a chat and ask for a friendly summary for customers. That’s a prompt, and it’s perfectly fine.</p>
+    <p>After a few sprints you notice that you always add the same tone guidelines and the same structure, so you write them into a skill. Now anyone on the team can produce notes that sound like your product, even on the weeks you’re on holiday.</p>
+    <p>Later someone suggests an agent that pulls the closed tickets from Jira by itself, writes the notes and posts them to the customer channel. It sounds lovely, and it might well be. But the agent is now the one choosing which tickets count, and one of them could be an internal fix that nobody wanted customers to read about. Every step up saved some time, and every step up quietly moved a decision away from a person.</p>
+
+    <p class="yours">One example from your own skills or agents: what you built, and the moment you decided to go one level up, or back down. Leave out anything that points to a client.</p>
+
+    <span class="part-tag">and, through a product lens</span>
+    <h2>Treat “we need an agent” as a solution</h2>
+    <p>When a team proposes an agent, it helps to treat it like any other solution that has turned up before the problem is clear. Ask what job it would do and how often that job really comes up. You’ll often find that the real need sits one level lower, and that a skill would get you most of the value in a fraction of the time.</p>
+    <p>The way you measure success also changes as you climb. With a prompt or a skill you can mostly judge the output itself, so the question is simply whether these release notes are any good. With an agent you also need to look at the path it took: which tickets it picked, which ones it skipped, and where it went round in circles. A result can look perfectly polished and still rest on a wrong decision made three steps earlier. If your team has no way to see that path yet, that’s a good reason to wait.</p>
+    <p>Cost behaves differently too. Agents run for longer, call more tools and use many more tokens, so something that feels cheap in a demo can look rather different once a few thousand people use it every day. It’s worth sketching that number before anyone falls in love with the prototype.</p>
+
+    <aside class="stays">
+      <span class="hand">what stays human here</span>
+      <p>Choosing the goal, and owning the result. When a release note goes out with something it shouldn’t contain, nobody on the customer’s side cares whether a prompt, a skill or an agent wrote it.</p>
+      <p>It’s also worth keeping some writing for yourself on purpose. For many of us, writing is how the thinking actually happens, and some of that friction is load-bearing.</p>
+    </aside>
+
+    <nav class="pager" aria-label="Chapters">
+      <a href="00-neither-hype-nor-doom.html"><span>previous one written</span>00 · Neither hype nor doom</a>
+      <a href="../index.html" style="text-align:right"><span>back to</span>All chapters</a>
+    </nav>
+
+    <div class="sources">
+      <p>Further reading: Anthropic’s documentation on <a href="https://docs.claude.com/en/docs/agents-and-tools/agent-skills/overview">Agent Skills</a>, and their essay <a href="https://www.anthropic.com/engineering/building-effective-agents">Building effective agents</a>, which makes a similar case for starting with the simplest thing that works.</p>
+    </div>
+
+  </article>
+</main>
+
+<footer class="foot">
+  <p>Judgement in the Loop · Sofia Traba</p>
+</footer>
+</body>
+</html>

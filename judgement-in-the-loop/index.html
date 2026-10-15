@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Judgement in the Loop · A field guide for product people</title>
+<meta name="description" content="A field guide for product people on deciding where AI belongs, what to hand over, and what should stay human.">
+<meta name="theme-color" content="#577040">
+<link rel="icon" href="illustrations/favicon.svg" type="image/svg+xml">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Judgement in the Loop">
+<meta property="og:description" content="A field guide for product people on deciding where AI belongs.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="guide.css?v=1">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <a class="title" href="index.html">Judgement in the Loop</a>
+  <a class="back" href="../index.html">by Sofia Traba</a>
+</header>
+
+<main id="main" class="wrap">
+
+  <section class="hero">
+    <div>
+      <p class="eyebrow">a field guide for product people</p>
+      <h1>Judgement in the Loop</h1>
+      <p class="lede">Almost anything can be built now, and a surprising amount of it can be built by the end of the week. When making things gets this cheap, the interesting work moves somewhere else: deciding what is worth making, how much of it to hand to a machine, and what we would rather keep doing ourselves.</p>
+      <p>This guide is about that part of the job. It’s written for product people, and for anyone who has sat in a meeting where someone said “we could just use AI for that” and wasn’t quite sure whether they were right.</p>
+    </div>
+    <figure class="plate">
+      <img src="illustrations/cover.svg" alt="A seedling in a checked pot, circled by a flowering vine" width="800" height="650">
+    </figure>
+  </section>
+
+  <section class="read" style="max-width:none">
+    <h2>How each chapter works</h2>
+    <p style="max-width:var(--read)">Every chapter starts from a question you will probably meet at work sooner or later. It explains just enough of the technology for that question to make sense, spends most of its time on how to decide, and then looks at the whole thing the way a product person would.</p>
+
+    <ol class="parts">
+      <li style="--c:var(--terracotta)">
+        <span class="n">first</span>
+        <h3>What it is</h3>
+        <p>Enough to follow the conversation with your engineers, in plain words, with links out for anyone who wants the deep end.</p>
+      </li>
+      <li style="--c:#c9a13e">
+        <span class="n">then</span>
+        <h3>How to decide</h3>
+        <p>The questions worth asking before you choose, and the signs that tell you it’s time to change your mind.</p>
+      </li>
+      <li style="--c:var(--sage)">
+        <span class="n">and</span>
+        <h3>Through a product lens</h3>
+        <p>What it means for discovery, for delivery, and for how you’ll know whether any of it worked.</p>
+      </li>
+    </ol>
+    <p style="max-width:var(--read);margin-top:24px">Each one closes with a short note on what should stay in human hands. That question runs underneath all the others, and the last chapter takes it on directly.</p>
+  </section>
+
+  <section class="toc" aria-labelledby="toc-title">
+    <h2 id="toc-title">The chapters</h2>
+
+    <ol>
+      <li>
+        <a class="chapter" href="chapters/00-neither-hype-nor-doom.html">
+          <span class="num">00</span>
+          <div><h3>Neither hype nor doom</h3><p>Where this guide stands, and what a hundred-year-old story about factory motors can teach us about AI.</p></div>
+          <span class="state">read</span>
+        </a>
+      </li>
+    </ol>
+
+    <p class="toc-part">Knowing what you’re working with</p>
+    <ol>
+      <!-- MODULE: chapter row. When a chapter is written, turn the <div class="chapter"> into <a class="chapter" href="chapters/...">, and change "still growing" to "read". -->
+      <li><div class="chapter"><span class="num">01</span><div><h3>What am I actually talking to?</h3><p>How large language models work, without the maths, and where their confidence comes from.</p></div><span class="state">still growing</span></div></li>
+      <li><div class="chapter"><span class="num">02</span><div><h3>Where does it go wrong?</h3><p>Made-up facts, leaked data and quiet bias, and how to spot them before your users do.</p></div><span class="state">still growing</span></div></li>
+    </ol>
+
+    <p class="toc-part">Shaping what it knows and what it can do</p>
+    <ol>
+      <li><div class="chapter"><span class="num">03</span><div><h3>A better prompt, or better context?</h3><p>Why the information around a question so often matters more than how the question is worded.</p></div><span class="state">still growing</span></div></li>
+      <li><div class="chapter"><span class="num">04</span><div><h3>How much should I set up before I start?</h3><p>Project folders, settings and saved commands, and when the setup earns back its time.</p></div><span class="state">still growing</span></div></li>
+      <li><div class="chapter"><span class="num">05</span><div><h3>What should it be allowed to touch?</h3><p>Giving AI tools to work with, and drawing a clear line around what it can change.</p></div><span class="state">still growing</span></div></li>
+      <li><div class="chapter"><span class="num">06</span><div><h3>A ready-made connection, or your own?</h3><p>MCP servers in plain words, and when an off-the-shelf connector is all you need.</p></div><span class="state">still growing</span></div></li>
+    </ol>
+
+    <p class="toc-part">Choosing how much to hand over</p>
+    <ol>
+      <li>
+        <a class="chapter" href="chapters/07-prompt-skill-or-agent.html">
+          <span class="num">07</span>
+          <div><h3>Prompt, skill or agent?</h3><p>Three ways of working with AI, and what you give away each time you move up one.</p></div>
+          <span class="state">read</span>
+        </a>
+      </li>
+      <li><div class="chapter"><span class="num">08</span><div><h3>When is a skill enough?</h3><p>Writing down how your team works so AI can follow it, and noticing when a file stops being enough.</p></div><span class="state">still growing</span></div></li>
+      <li><div class="chapter"><span class="num">09</span><div><h3>One agent, or a whole team of them?</h3><p>Orchestration and handovers between agents, and why adding more of them can make things worse.</p></div><span class="state">still growing</span></div></li>
+    </ol>
+
+    <p class="toc-part">Closing</p>
+    <ol>
+      <li><div class="chapter"><span class="num">10</span><div><h3>What stays human?</h3><p>The question underneath all the others, taken on directly.</p></div><span class="state">still growing</span></div></li>
+    </ol>
+  </section>
+
+  <section class="about">
+    <div>
+      <h3>Who writes this</h3>
+      <p>I’m <a href="../index.html">Sofia Traba</a>, a product manager who wrote software for a few years before moving into product. I build with AI most days and I really enjoy it, which is exactly why I care about using it well.</p>
+    </div>
+    <div>
+      <h3>New chapters</h3>
+      <p>Chapters arrive one at a time, every couple of weeks. The guide is in English for now, and Spanish and French versions will follow once the chapters have settled.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p>Judgement in the Loop · Sofia Traba · <span id="year">2026</span></p>
+</footer>
+
+<script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
